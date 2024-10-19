@@ -1,5 +1,8 @@
 # RushTranslate App
 
+## Wireframe: [wireframe](https://www.figma.com/design/JWIU6D9crToZwDgviTKRd2/RushTranslate?node-id=0-1&node-type=canvas&t=aoCEVEw9KvQHlGIw-0)
+## Architecture: [architecture]()
+
 ## Table of Contents
 - [Overview](#overview)
 - [Features](#features)
