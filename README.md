@@ -1,7 +1,49 @@
 # RushTranslate App
 
 ## Wireframe: [wireframe](https://www.figma.com/design/JWIU6D9crToZwDgviTKRd2/RushTranslate?node-id=0-1&node-type=canvas&t=aoCEVEw9KvQHlGIw-0)
-## Architecture: [architecture]()
+
+## Architecture
+
+# **Presentation Layer (UI/UX)**
+
+This layer will be responsible for user interaction.  
+Expo React Native will be used alongside Tamagui for UI styling and components
+
+### **Features:**
+- Displaying the automatically detected language based on the country and suggesting it as the target language.  
+- Providing the option to manually set a different target language if the user desires.
+- A set of packages available to download for offline translation
+
+# **Business Logic Layer**
+
+The core logic of the app and services will be managed here. In this layer, we will integrate functionalities for offline translations and request handling.
+
+### **Features:**
+- Detecting the location to suggest the target language.  
+- Synchronizing with the backend when the user has internet access to fetch new translations (e.g., using a translation API).  
+- Managing offline mode: when there is no internet connection, the app will use a local database with emergency translations.  
+- Implementing logic to save new translations fetched from the server to the local database when the connection is restored.  
+- Alerts for the user in case the manually set target language differs from the detected one.  
+
+# **Data Access Layer (DAL)**
+
+This layer will manage all database-related operations.
+
+### **Features:**
+- Storing offline translations in a local database (SQLite).  
+- When the app is offline, accessing translations from this local database.  
+- Synchronizing the local database with new data obtained from the backend (when the app has an internet connection).  
+
+# **Backend Layer (Server-Side)**
+
+This will be responsible for providing updated translations from the backend when there is an internet connection.
+We will use Express.js for the backend side.
+
+### **Features:**
+- Calls to a translation service (Google Translate).  
+- Managing the logic for language selection based on location, using GPS/IP data to identify the user's country.  
+- Providing emergency translations in case the language is not immediately available.  
+- Implementing an endpoint to fetch new translations and updates for the local database.  
 
 ## Table of Contents
 - [Overview](#overview)
