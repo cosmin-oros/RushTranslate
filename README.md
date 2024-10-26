@@ -70,16 +70,27 @@ RushTranslate is a mobile application that provides emergency offline translatio
 
 Modify here
 ```plaintext
-client/
+RushTranslate/
+├── client/
+│   ├── App.tsx                    # Main entry point for the React Native app
+│   ├── assets/                    # Static assets like images 
+│   ├── package.json               # Project dependencies and scripts
+│   ├── tsconfig.json              # TypeScript configuration
+│   ├── src/
+│   │   ├── components/            # Reusable UI components
+│   │   ├── screens/               # Application screens
+│   ├── routes/                    # App routing setup
+│   └── README.md                  # Documentation
 │
-├── App.tsx             # Main entry point for the React Native app
-├── assets/             # Static assets like images 
-├── package.json        # Project dependencies and scripts
-├── tsconfig.json       # TypeScript configuration
-├── src/                # Source files for components and screens
-│   ├── components/     # Reusable UI components
-│   ├── screens/        # Application screens
-└── README.md           # Project documentation (this file)
+└── server/
+    ├── controllers/
+    │   └── translationController.js # Business logic for translations
+    ├── models/
+    │   └── translationPackage.js    # Database models for packages and translations
+    ├── routes/
+    │   └── translationRoutes.js     # API routes for translation handling
+    ├── package.json                 # Server dependencies and scripts
+    └── server.js                    # Express server entry point
 ```
 
 ## Prerequisites
@@ -114,7 +125,27 @@ Before you begin, ensure you have met the following requirements:
 
     ```bash
     yarn install
+
+## Server Setup
+
+1. Navigate to the server directory:
+
+    ```bash
+    cd RushTranslate/server
     ```
+
+2. Install dependencies:
+
+    ```bash
+    yarn install
+    ```
+
+3. Create a `.env` file in the `server` directory with the following variables:
+
+    ```plaintext
+    PORT=5000
+    DATABASE_URL=your_database_url
+    ```    ```
 
 ## Usage
 
@@ -126,6 +157,14 @@ To start the Expo server and run the app on a simulator or physical device, use 
 yarn start
 yarn android
 yarn ios
+```
+
+### Running the Server
+
+Access the server at http://localhost:5000
+
+```bash
+yarn start
 ```
 
 ## Deployment
