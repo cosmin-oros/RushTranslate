@@ -39,6 +39,166 @@ This layer will manage all database-related operations.
 This will be responsible for providing updated translations from the backend when there is an internet connection.
 We will use Express.js for the backend side.
 
+### API Documentation
+
+API Endpoints
+1. List All Packages
+Endpoint: GET /api/translations/packages
+
+Description: Retrieves a list of all available translation packages.
+
+Response:
+
+200 OK: Returns an array of package names.
+500 Internal Server Error: If there is an error retrieving the packages.
+
+```
+[
+  "business essentials",
+  "travel_essentials",
+  "medical care essentials"
+]
+```
+
+2. Get All Translations for a Package
+Endpoint: GET /api/translations/:package
+
+Description: Retrieves all languages and their translations for a specified package.
+
+URL Parameters:
+
+package: The name of the package (e.g., "travel essentials").
+Response:
+
+200 OK: Returns an array of languages and translations.
+404 Not Found: If the package is not found.
+500 Internal Server Error: If there is an error retrieving the translations.
+
+```
+{
+  "languages": [
+    {
+      "language": "en",
+      "translations": [
+        { "key": "welcome_message", "text": "Welcome to our app!" },
+        { "key": "logout", "text": "Logout" }
+      ]
+    },
+    {
+      "language": "es",
+      "translations": [
+        { "key": "welcome_message", "text": "¡Bienvenido a nuestra aplicación!" },
+        { "key": "logout", "text": "Cerrar sesión" }
+      ]
+    }
+  ]
+}
+```
+
+3. Get Translations for a Specific Language in a Package
+Endpoint: GET /api/translations/:package/:language
+
+Description: Retrieves translations for a specific language within a specified package.
+
+URL Parameters:
+
+package: The name of the package (e.g., "travel essentials").
+language: The language code (e.g., "en" for English).
+Response:
+
+200 OK: Returns an array of translations for the specified language.
+404 Not Found: If the package or language is not found.
+500 Internal Server Error: If there is an error retrieving the translations.
+
+```
+{
+  "translations": [
+    { "key": "welcome_message", "text": "Welcome to our app!" },
+    { "key": "logout", "text": "Logout" }
+  ]
+}
+```
+
+4. Add or Update Translations for a Package and Language
+Endpoint: POST /api/translations/:package
+
+Description: Adds or updates translations for a specific package and language.
+
+URL Parameters:
+
+package: The name of the package (e.g., "travel essentials").
+Request Body:
+
+language (string): The language code (e.g., "fr" for French).
+translations (array): An array of translation objects, where each object contains a key and text.
+
+Example request: 
+
+```
+{
+  "language": "fr",
+  "translations": [
+    { "key": "welcome_message", "text": "Bienvenue dans notre application!" },
+    { "key": "logout", "text": "Déconnexion" }
+  ]
+}
+```
+
+Response:
+
+200 OK: Returns a success message.
+500 Internal Server Error: If there is an error saving the translations.
+
+```
+{
+  "message": "Translations updated successfully"
+}
+```
+
+Data Model
+
+Translation Schema
+
+```
+{
+  "key": String,      // Required. The key identifier for the translation.
+  "text": String      // Required. The translated text for the specified key.
+}
+```
+
+Language Schema
+
+```
+{
+  "language": String,         // Required. The language code (e.g., "en" for English).
+  "translations": [           // Array of translation objects.
+    {
+      "key": String,
+      "text": String
+    }
+  ]
+}
+```
+
+Translation Package Schema
+
+```
+{
+  "packageName": String,      // Required. The unique name of the translation package.
+  "languages": [              // Array of language objects.
+    {
+      "language": String,
+      "translations": [
+        {
+          "key": String,
+          "text": String
+        }
+      ]
+    }
+  ]
+}
+```
+
 ### **Features:**
 - Calls to a translation service (Google Translate).  
 - Managing the logic for language selection based on location, using GPS/IP data to identify the user's country.  
