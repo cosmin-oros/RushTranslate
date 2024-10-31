@@ -3,10 +3,10 @@ import { useTranslation } from 'react-i18next';
 import { Container, Content, CenteredView, LogoWrapper, Title, Subtitle, StyledButton } from '../../tamagui.config';
 import { Image } from 'react-native';
 import { Text } from '@tamagui/core';
-import { useNavigation } from '@react-navigation/core';
 import { Routes } from '../../routes/routes';
 import { RouteParams } from '../../routes/types';
 import { StackNavigationProp } from '@react-navigation/stack';
+import { useNavigation } from '@react-navigation/native';
 
 type RoutePropType = StackNavigationProp<RouteParams, Routes.Home>;
 
@@ -24,10 +24,10 @@ const WelcomeScreen: React.FC = () => {
         <CenteredView>
           {/* Logo or Illustration */}
           <LogoWrapper>
-            {/* <Image 
-              source={require('./path-to-image.png')} 
+            <Image 
+              source={require('../../assets/applogo.png')} 
               style={{ width: 120, height: 120, resizeMode: 'contain' }}
-            /> */}
+            />
           </LogoWrapper>
 
           {/* Title */}
