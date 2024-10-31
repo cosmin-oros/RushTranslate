@@ -1,33 +1,81 @@
-import { createTamagui, createTokens, createFont, styled, View, Text } from 'tamagui';
-import { ScrollView, Image, TouchableOpacity } from 'react-native';
+import { createTamagui, createTokens, createFont, styled, View, Text, Button } from 'tamagui';
+import { ScrollView, TouchableOpacity } from 'react-native';
 
-// Define your design tokens
 const tokens = createTokens({
-    size: { 0: 0, 1: 8, 2: 16, 3: 24, 4: 36, 5: 48, true: 16 }, 
-    space: { 0: 0, 1: 8, 2: 16, 3: 24, 4: 36, true: 16 }, 
+    size: { 0: 0, 1: 8, 2: 16, 3: 24, 4: 36, 5: 48, true: 16 },
+    space: { 0: 0, 1: 8, 2: 16, 3: 24, 4: 36, true: 16 },
     color: {
-        primary: '#FFFFFF', // White
-        secondary: '#000000', // Black
-        tertiary: '#5F9FD7', // ! modify here
-        quaternary: '#FFD700', // ! modify here
+        primary: '#EAF4F4',          // Light teal for background
+        secondary: '#333333',        // Dark gray text
+        accentBlue: '#007F7F',       // Teal accent for buttons and highlights
+        accentCoral: '#FF5A5F',      // Coral for secondary highlights
+        subtitleGray: '#6B6B6B',     // Soft gray for subtitle
+        darkBackground: '#1C1C1E',   // Dark gray for dark theme background
+        lightText: '#F5F5F5',        // Light color for text on dark background
     },
-    radius: { 0: 0, 1: 8, 2: 16, true: 16 }, 
+    radius: { 0: 0, 1: 8, 2: 16, true: 16 },
     zIndex: { 0: 0, 1: 10, 2: 20 },
 });
 
-// Define your font settings
 const font = createFont({
   family: 'Inter, Arial, sans-serif',
-  size: { 1: 16, 2: 20, 3: 28, 4: 36 }, 
+  size: { 1: 16, 2: 20, 3: 28, 4: 36 },
   weight: { 400: 'normal', 700: 'bold' },
-  lineHeight: { 1: 24, 2: 28, 3: 36 }, 
+  lineHeight: { 1: 24, 2: 28, 3: 36 },
 });
 
-// ! define components here
+export const CenteredView = styled(View, {
+  alignItems: 'center',
+  justifyContent: 'center',
+  flex: 1,
+  padding: '$space.3',
+});
+
+export const LogoWrapper = styled(View, {
+  marginBottom: '$space.4',
+});
+
+export const Title = styled(Text, {
+  fontFamily: '$body',
+  fontSize: '$4',
+  fontWeight: '700',
+  color: '$color.secondary',
+  textAlign: 'center',
+});
+
+export const Subtitle = styled(Text, {
+  fontFamily: '$body',
+  fontSize: '$2',
+  color: '$color.subtitleGray',
+  textAlign: 'center',
+  marginTop: '$space.2',
+});
+
+export const StyledButton = styled(TouchableOpacity, {
+  backgroundColor: '$color.accentBlue',
+  paddingVertical: '$space.2',
+  paddingHorizontal: '$space.4',
+  borderRadius: '$radius.2',
+  marginTop: '$space.4',
+  justifyContent: 'center',
+  alignItems: 'center',
+  shadowColor: '#000',
+  shadowOffset: { width: 0, height: 4 },
+  shadowOpacity: 0.25,
+  shadowRadius: 4,
+});
+
+
+export const ButtonText = styled(Text, {
+  color: '$color.lightText',
+  fontFamily: '$body',
+  fontSize: '$1',
+  fontWeight: '700',
+});
 
 export const Container = styled(View, {
   flex: 1,
-  backgroundColor: '$color.primary', 
+  backgroundColor: '$color.primary',
 });
 
 export const Content = styled(ScrollView, {
@@ -35,7 +83,6 @@ export const Content = styled(ScrollView, {
   padding: '$space.3',
 });
 
-// Create your Tamagui configuration
 const config = createTamagui({
   tokens,
   fonts: {
@@ -43,17 +90,17 @@ const config = createTamagui({
   },
   themes: {
     light: {
-      background: '$color.primary',   // White background
-      primaryColor: '$color.tertiary',
+      background: '$color.primary',
+      primaryColor: '$color.accentBlue',
       secondaryColor: '$color.secondary',
-      tertiaryColor: '$color.quaternary',      
+      tertiaryColor: '$color.accentCoral',
     },
     dark: {
-      background: '$color.secondary', // Black background
-      color: '$color.primary',
-      primaryColor: '$color.tertiary',
-      secondaryColor: '$color.primary',
-      tertiaryColor: '$color.quaternary',              
+      background: '$color.darkBackground',
+      color: '$color.lightText',
+      primaryColor: '$color.accentBlue',
+      secondaryColor: '$color.lightText',
+      tertiaryColor: '$color.accentCoral',
     },
   },
 });
