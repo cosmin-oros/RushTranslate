@@ -11,7 +11,8 @@
     "saved": {
 
     },
-    "onboarding": {
-        
+    "welcome": {
+        "subtitle": "Translate effortlessly offline in 20+ languages",
+        "get_started": "Get Started"
     }
 }

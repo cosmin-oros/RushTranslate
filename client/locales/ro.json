@@ -11,7 +11,8 @@
     "saved": {
 
     },
-    "onboarding": {
-        
+    "welcome": {
+        "subtitle": "Tradu cu ușurință offline în peste 20 de limbi",
+        "get_started": "Începe"
     }
 }
