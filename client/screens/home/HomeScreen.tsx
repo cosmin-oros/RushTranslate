@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Container, Content, Title } from '../../tamagui.config';
-import { View, TouchableOpacity, Text } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Card from './components/Card';
 import ActionButton from './components/ActionButton';
@@ -60,14 +60,22 @@ const HomeScreen: React.FC = () => {
         
         {/* Main Content Area */}
         <View style={{ gap: 16, width: '100%', alignItems: 'center' }}>
-          <Card title={languages.top} textInputValue={textInputValue} setTextInputValue={setTextInputValue} />
-          
-          {/* Language Switch Icon */}
-          <TouchableOpacity onPress={handleLanguageSwitch} style={{ marginVertical: 16 }}>
-            <Icon name="swap-vertical" size={30} color="#007F7F" />
-          </TouchableOpacity>
-          
-          <Card title={languages.bottom} textInputValue={textInputValue} setTextInputValue={setTextInputValue} />
+          {selectedAction === 'Write' ? (
+            <>
+              <Card title={languages.top} textInputValue={textInputValue} setTextInputValue={setTextInputValue} />
+              
+              {/* Language Switch Icon */}
+              <TouchableOpacity onPress={handleLanguageSwitch} style={{ marginVertical: 16 }}>
+                <Icon name="swap-vertical" size={30} color="#007F7F" />
+              </TouchableOpacity>
+              
+              <Card title={languages.bottom} textInputValue={textInputValue} setTextInputValue={setTextInputValue} />
+            </>
+          ) : selectedAction === 'Saved' ? (
+            <></>
+          ) : (
+            <></>
+          )}
 
           {/* Action Buttons */}
           <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginVertical: 16 }}>
