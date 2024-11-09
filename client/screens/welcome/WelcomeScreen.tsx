@@ -7,7 +7,7 @@ import { RouteParams } from '../../routes/types';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
 
-type RoutePropType = StackNavigationProp<RouteParams, Routes.Home>;
+type RoutePropType = StackNavigationProp<RouteParams, Routes.Welcome>;
 
 const WelcomeScreen: React.FC = () => {
   const { t } = useTranslation();
