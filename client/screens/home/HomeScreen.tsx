@@ -6,6 +6,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import Card from './components/Card';
 import ActionButton from './components/ActionButton';
 import BottomTabNavigation from './components/BottomTabNavigation';
+import RecordSection from './components/RecordSection'; // Import the RecordSection component
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/core';
 import { Routes } from '../../routes/routes';
@@ -71,10 +72,10 @@ const HomeScreen: React.FC = () => {
               
               <Card title={languages.bottom} textInputValue={textInputValue} setTextInputValue={setTextInputValue} />
             </>
-          ) : selectedAction === 'Saved' ? (
-            <></>
+          ) : selectedAction === 'Record' ? (
+            <RecordSection onTextGenerated={(text) => setTextInputValue(text)} /> // Display the RecordSection when "Record" is selected
           ) : (
-            <></>
+            <></> // You can add components for other actions like "Scan" here if needed
           )}
 
           {/* Action Buttons */}
