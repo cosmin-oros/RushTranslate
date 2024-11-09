@@ -19,6 +19,8 @@
     "@tamagui/stacks": "^1.114.4",
     "expo": "~51.0.28",
     "expo-av": "~14.0.7",
+    "expo-camera": "~15.0.16",
+    "expo-image-picker": "~15.0.7",
     "expo-localization": "^15.0.3",
     "expo-splash-screen": "^0.27.6",
     "expo-status-bar": "~1.12.1",

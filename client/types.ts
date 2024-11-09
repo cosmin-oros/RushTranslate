@@ -14,3 +14,8 @@ export interface CardProps {
   textInputValue: string;
   setTextInputValue: (value: string) => void;
 }
+
+export type ScanSectionProps = {
+  languages: { top: string; bottom: string };
+  handleLanguageSwitch: () => void;
+};

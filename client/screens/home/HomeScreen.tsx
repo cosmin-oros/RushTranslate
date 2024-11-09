@@ -11,6 +11,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/core';
 import { Routes } from '../../routes/routes';
 import { RouteParams } from '../../routes/types';
+import ScanSection from './components/ScanSection';
 
 type RoutePropType = StackNavigationProp<RouteParams, Routes.Home>;
 
@@ -73,9 +74,12 @@ const HomeScreen: React.FC = () => {
               <Card title={languages.bottom} textInputValue={textInputValue} setTextInputValue={setTextInputValue} />
             </>
           ) : selectedAction === 'Record' ? (
-            <RecordSection onTextGenerated={(text) => setTextInputValue(text)} /> // Display the RecordSection when "Record" is selected
+            <RecordSection onTextGenerated={(text) => setTextInputValue(text)} /> 
           ) : (
-            <></> // You can add components for other actions like "Scan" here if needed
+            <ScanSection
+              languages={languages}
+              handleLanguageSwitch={handleLanguageSwitch}
+            />
           )}
 
           {/* Action Buttons */}
