@@ -8,3 +8,9 @@ export interface ActionButtonProps {
   isSelected: boolean;
   onPress: () => void;
 }
+
+export interface CardProps {
+  title: string;
+  textInputValue: string;
+  setTextInputValue: (value: string) => void;
+}

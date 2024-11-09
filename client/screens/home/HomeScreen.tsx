@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Container, Content, CenteredView, Title } from '../../tamagui.config';
-import { View, Text } from '@tamagui/core';
+import { Container, Content, Title } from '../../tamagui.config';
+import { View, TouchableOpacity, Text } from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
 import Card from './components/Card';
 import ActionButton from './components/ActionButton';
 import BottomTabNavigation from './components/BottomTabNavigation';
@@ -15,7 +16,9 @@ type RoutePropType = StackNavigationProp<RouteParams, Routes.Home>;
 const HomeScreen: React.FC = () => {
   const { t } = useTranslation();
   const [selectedBottomTab, setSelectedBottomTab] = useState('Home');
-  const [selectedAction, setSelectedAction] = useState('Write'); 
+  const [selectedAction, setSelectedAction] = useState('Write');
+  const [textInputValue, setTextInputValue] = useState('');
+  const [languages, setLanguages] = useState({ top: 'English', bottom: 'French' });
   const navigation = useNavigation<RoutePropType>();
 
   const handleBottomTabPress = (tab: string) => {
@@ -43,37 +46,48 @@ const HomeScreen: React.FC = () => {
     setSelectedAction(action);
   };
 
+  const handleLanguageSwitch = () => {
+    setLanguages((prev) => ({
+      top: prev.bottom,
+      bottom: prev.top,
+    }));
+  };
+
   return (
     <Container>
-      <Content contentContainerStyle={{ flexGrow: 1 }}>
-        <CenteredView>
-          <Title>RushTranslate</Title>
+      <Title style={{ textAlign: 'center', fontSize: 32, marginTop: '15%' }}>RushTranslate</Title>
+      <Content contentContainerStyle={{ flexGrow: 1, paddingBottom: '7%', paddingHorizontal: 16, justifyContent: 'center', alignItems: 'center' }}>
+        
+        {/* Main Content Area */}
+        <View style={{ gap: 16, width: '100%', alignItems: 'center' }}>
+          <Card title={languages.top} textInputValue={textInputValue} setTextInputValue={setTextInputValue} />
+          
+          {/* Language Switch Icon */}
+          <TouchableOpacity onPress={handleLanguageSwitch} style={{ marginVertical: 16 }}>
+            <Icon name="swap-vertical" size={30} color="#007F7F" />
+          </TouchableOpacity>
+          
+          <Card title={languages.bottom} textInputValue={textInputValue} setTextInputValue={setTextInputValue} />
 
-          {/* Main Content Area */}
-          <View style={{ padding: 16, gap: 16, width: '100%' }}>
-            <Card title="Text" subtitle="Text" />
-            <Card title="Text" subtitle="Text" />
-
-            {/* Action Buttons */}
-            <View style={{ flexDirection: 'row', justifyContent: 'center', paddingHorizontal: 16, marginVertical: 16, width: '100%' }}>
-              <ActionButton
-                label="Write"
-                isSelected={selectedAction === 'Write'}
-                onPress={() => handleActionPress('Write')}
-              />
-              <ActionButton
-                label="Record"
-                isSelected={selectedAction === 'Record'}
-                onPress={() => handleActionPress('Record')}
-              />
-              <ActionButton
-                label="Scan"
-                isSelected={selectedAction === 'Scan'}
-                onPress={() => handleActionPress('Scan')}
-              />
-            </View>
+          {/* Action Buttons */}
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginVertical: 16 }}>
+            <ActionButton
+              label="Write"
+              isSelected={selectedAction === 'Write'}
+              onPress={() => handleActionPress('Write')}
+            />
+            <ActionButton
+              label="Record"
+              isSelected={selectedAction === 'Record'}
+              onPress={() => handleActionPress('Record')}
+            />
+            <ActionButton
+              label="Scan"
+              isSelected={selectedAction === 'Scan'}
+              onPress={() => handleActionPress('Scan')}
+            />
           </View>
-        </CenteredView>
+        </View>
 
         {/* Bottom Tab Navigation */}
         <BottomTabNavigation selectedTab={selectedBottomTab} onTabPress={handleBottomTabPress} />
