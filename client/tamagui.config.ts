@@ -51,28 +51,6 @@ export const Subtitle = styled(Text, {
   marginTop: '$space.2',
 });
 
-export const StyledButton = styled(TouchableOpacity, {
-  backgroundColor: '$color.accentBlue',
-  paddingVertical: '$space.2',
-  paddingHorizontal: '$space.4',
-  borderRadius: '$radius.2',
-  marginTop: '$space.4',
-  justifyContent: 'center',
-  alignItems: 'center',
-  shadowColor: '#000',
-  shadowOffset: { width: 0, height: 4 },
-  shadowOpacity: 0.25,
-  shadowRadius: 4,
-});
-
-
-export const ButtonText = styled(Text, {
-  color: '$color.lightText',
-  fontFamily: '$body',
-  fontSize: '$1',
-  fontWeight: '700',
-});
-
 export const Container = styled(View, {
   flex: 1,
   backgroundColor: '$color.primary',
