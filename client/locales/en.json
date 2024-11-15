@@ -1,18 +1,22 @@
 {
-    "common": {
-        "appName": "RushTranslate"
-    },
-    "home": {
-
-    }, 
-    "settings": {
-
-    },
-    "saved": {
-
-    },
-    "welcome": {
-        "subtitle": "Translate effortlessly offline in 20+ languages",
-        "get_started": "Get Started"
-    }
+  "common": {
+    "appName": "RushTranslate"
+  },
+  "home": {},
+  "settings": {},
+  "saved": {
+    "title": "Saved",
+    "travel_essentials": "Travel Essentials",
+    "business_essentials": "Business Essentials",
+    "medical_care_essentials": "Medical Care Essentials",
+    "size_mb": "{{size}} MB",
+    "download": "Download",
+    "remove": "Remove",
+    "downloading": "Downloading...",
+    "clear_all_downloads": "Clear All Downloads"
+  },
+  "welcome": {
+    "subtitle": "Translate effortlessly offline in 20+ languages",
+    "get_started": "Get Started"
+  }
 }

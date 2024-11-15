@@ -1,18 +1,22 @@
 {
-    "common": {
-        "appName": "RushTranslate"
-    },
-    "home": {
-
-    }, 
-    "settings": {
-
-    },
-    "saved": {
-
-    },
-    "welcome": {
-        "subtitle": "Tradu cu ușurință offline în peste 20 de limbi",
-        "get_started": "Începe"
-    }
+  "common": {
+    "appName": "RushTranslate"
+  },
+  "home": {},
+  "settings": {},
+  "saved": {
+    "title": "Salvate",
+    "travel_essentials": "Esențiale de călătorie",
+    "business_essentials": "Esențiale de afaceri",
+    "medical_care_essentials": "Îngrijiri medicale esențiale",
+    "size_mb": "{{size}} MB",
+    "download": "Descarcă",
+    "remove": "Șterge",
+    "downloading": "Se descarcă...",
+    "clear_all_downloads": "Șterge toate descărcările"
+  },
+  "welcome": {
+    "subtitle": "Tradu cu ușurință offline în peste 20 de limbi",
+    "get_started": "Începe"
+  }
 }

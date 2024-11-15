@@ -12,9 +12,9 @@ type RoutePropType = StackNavigationProp<RouteParams, Routes.Saved>;
 
 const SavedScreen: React.FC = () => {
   const [downloads, setDownloads] = useState([
-    { id: 1, title: 'Travel Essentials', size: '90 MB', status: 'Download' },
-    { id: 2, title: 'Business Essentials', size: '73 MB', status: 'Remove' },
-    { id: 3, title: 'Medical Care Essentials', size: '61 MB', status: 'In Progress', progress: '23 / 61 MB' },
+    { id: 1, title: 'saved.travel_essentials', size: '90', status: 'Download' },
+    { id: 2, title: 'saved.business_essentials', size: '73', status: 'Remove' },
+    { id: 3, title: 'saved.medical_care_essentials', size: '61', status: 'In Progress', progress: '23 / 61' },
   ]);
   const navigation = useNavigation<RoutePropType>();
   const { t } = useTranslation();
@@ -58,30 +58,30 @@ const SavedScreen: React.FC = () => {
 
   return (
     <Container>
-      <Title style={styles.title}>RushTranslate</Title>
+      <Title style={styles.title}>{t('common.appName')}</Title>
       <Content>
         <ScrollView contentContainerStyle={styles.content}>
           {downloads.map((item) => (
             <View key={item.id} style={styles.card}>
-              <Text style={styles.titleText}>{item.title}</Text>
-              <Text style={styles.sizeText}>{item.size}</Text>
+              <Text style={styles.titleText}>{t(item.title)}</Text>
+              <Text style={styles.sizeText}>{t('saved.size_mb', { size: item.size })}</Text>
               {item.status === 'Download' ? (
                 <TouchableOpacity
                   style={styles.downloadButton}
                   onPress={() => handleDownloadAction(item.id)}
                 >
-                  <Text style={styles.buttonText}>Download</Text>
+                  <Text style={styles.buttonText}>{t('saved.download')}</Text>
                 </TouchableOpacity>
               ) : item.status === 'Remove' ? (
                 <TouchableOpacity
                   style={styles.removeButton}
                   onPress={() => handleRemoveAction(item.id)}
                 >
-                  <Text style={styles.buttonText}>Remove</Text>
+                  <Text style={styles.buttonText}>{t('saved.remove')}</Text>
                 </TouchableOpacity>
               ) : (
                 <View style={styles.progressContainer}>
-                  <Text style={styles.progressText}>Downloading...</Text>
+                  <Text style={styles.progressText}>{t('saved.downloading')}</Text>
                   <Text style={styles.progressText}>{item.progress}</Text>
                 </View>
               )}
@@ -89,7 +89,7 @@ const SavedScreen: React.FC = () => {
           ))}
 
           <TouchableOpacity style={styles.clearButton} onPress={handleClearAllDownloads}>
-            <Text style={styles.clearButtonText}>Clear All Downloads</Text>
+            <Text style={styles.clearButtonText}>{t('saved.clear_all_downloads')}</Text>
           </TouchableOpacity>
         </ScrollView>
       </Content>
