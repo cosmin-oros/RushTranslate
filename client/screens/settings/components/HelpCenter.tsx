@@ -13,11 +13,11 @@ const HelpCenter: React.FC<{ onBackPress: () => void }> = ({ onBackPress }) => {
         <TouchableOpacity onPress={onBackPress} style={styles.backButton}>
           <Icon name="arrow-back" size={24} color="#007F7F" />
         </TouchableOpacity>
-        <Title style={styles.title}>{t('settings.help')}</Title>
+        <Title style={styles.title}>{t('helpCenter.title')}</Title>
       </View>
       
       <ScrollView contentContainerStyle={styles.content}>
-        <Text style={styles.description}>{t('settings.help_text')}</Text>
+        <Text style={styles.description}>{t('helpCenter.description')}</Text>
         {/* Add help or FAQ sections here */}
       </ScrollView>
     </Container>

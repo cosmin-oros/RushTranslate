@@ -13,11 +13,11 @@ const Feedback: React.FC<{ onBackPress: () => void }> = ({ onBackPress }) => {
         <TouchableOpacity onPress={onBackPress} style={styles.backButton}>
           <Icon name="arrow-back" size={24} color="#007F7F" />
         </TouchableOpacity>
-        <Title style={styles.title}>{t('settings.feedback')}</Title>
+        <Title style={styles.title}>{t('feedback.title')}</Title>
       </View>
       
       <ScrollView contentContainerStyle={styles.content}>
-        <Text style={styles.description}>{t('settings.feedback_text')}</Text>
+        <Text style={styles.description}>{t('feedback.description')}</Text>
         {/* Add feedback form or contact options here */}
       </ScrollView>
     </Container>

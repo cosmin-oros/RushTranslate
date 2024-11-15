@@ -13,11 +13,11 @@ const PrivacyPolicy: React.FC<{ onBackPress: () => void }> = ({ onBackPress }) =
         <TouchableOpacity onPress={onBackPress} style={styles.backButton}>
           <Icon name="arrow-back" size={24} color="#007F7F" />
         </TouchableOpacity>
-        <Title style={styles.title}>{t('settings.privacy')}</Title>
+        <Title style={styles.title}>{t('privacyPolicy.title')}</Title>
       </View>
       
       <ScrollView contentContainerStyle={styles.content}>
-        <Text style={styles.description}>{t('settings.privacy_policy_text')}</Text>
+        <Text style={styles.description}>{t('privacyPolicy.description')}</Text>
         {/* Add detailed privacy policy content here */}
       </ScrollView>
     </Container>

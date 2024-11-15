@@ -27,5 +27,33 @@
   "welcome": {
     "subtitle": "Translate effortlessly offline in 20+ languages",
     "get_started": "Get Started"
+  },
+  "languageSettings": {
+    "title": "Language Settings",
+    "languages": {
+      "en": "English",
+      "ro": "Romanian"
+    }
+  },
+  "offlineSettings": {
+    "title": "Offline Settings",
+    "description": "Manage your offline preferences and downloads."
+  },
+  "privacyPolicy": {
+    "title": "Privacy Policy",
+    "description": "Read our privacy policy to understand how we handle your data."
+  },
+  "clearAppData": {
+    "title": "Clear App Data",
+    "description": "Clear all app data, including preferences and saved items.",
+    "button": "Clear Data"
+  },
+  "feedback": {
+    "title": "Feedback",
+    "description": "We value your feedback. Please let us know how we can improve."
+  },
+  "helpCenter": {
+    "title": "Help Center",
+    "description": "Find answers to frequently asked questions or contact support for assistance."
   }
 }

@@ -13,13 +13,13 @@ const ClearAppData: React.FC<{ onBackPress: () => void }> = ({ onBackPress }) =>
         <TouchableOpacity onPress={onBackPress} style={styles.backButton}>
           <Icon name="arrow-back" size={24} color="#007F7F" />
         </TouchableOpacity>
-        <Title style={styles.title}>{t('settings.clear_data')}</Title>
+        <Title style={styles.title}>{t('clearAppData.title')}</Title>
       </View>
       
       <ScrollView contentContainerStyle={styles.content}>
-        <Text style={styles.description}>{t('settings.clear_data_text')}</Text>
+        <Text style={styles.description}>{t('clearAppData.description')}</Text>
         <TouchableOpacity style={styles.clearButton}>
-          <Text style={styles.clearButtonText}>{t('settings.clear_data_button')}</Text>
+          <Text style={styles.clearButtonText}>{t('clearAppData.button')}</Text>
         </TouchableOpacity>
       </ScrollView>
     </Container>

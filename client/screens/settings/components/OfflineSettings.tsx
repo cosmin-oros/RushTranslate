@@ -13,11 +13,11 @@ const OfflineSettings: React.FC<{ onBackPress: () => void }> = ({ onBackPress })
         <TouchableOpacity onPress={onBackPress} style={styles.backButton}>
           <Icon name="arrow-back" size={24} color="#007F7F" />
         </TouchableOpacity>
-        <Title style={styles.title}>{t('settings.offline')}</Title>
+        <Title style={styles.title}>{t('offlineSettings.title')}</Title>
       </View>
       
       <ScrollView contentContainerStyle={styles.content}>
-        <Text style={styles.description}>{t('settings.offline_description')}</Text>
+        <Text style={styles.description}>{t('offlineSettings.description')}</Text>
         {/* Add any offline-specific settings here */}
       </ScrollView>
     </Container>
