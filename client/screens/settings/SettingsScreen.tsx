@@ -52,34 +52,35 @@ const SettingsScreen: React.FC = () => {
   };
 
   const handleNavigation = (route: string) => {
-    // Navigate to the respective route (for demo purposes, no actual routes are implemented here)
     console.log(`Navigating to ${route}`);
   };
 
   return (
-    <Container style={{ backgroundColor: '#F7F8FA' }}>
+    <Container style={{ backgroundColor: '#F2F5F8' }}>
       <Title style={styles.title}>{t('common.appName')}</Title>
       <Content>
         <ScrollView contentContainerStyle={styles.content}>
-          <View style={styles.darkModeContainer}>
-            <Icon name="moon-outline" size={24} color="#333" style={styles.icon} />
+          <View style={[styles.card, styles.darkModeContainer]}>
+            <Icon name="moon-outline" size={24} color="#007F7F" style={styles.icon} />
             <Text style={styles.itemText}>{t('settings.dark_mode')}</Text>
             <Switch
               value={isDarkMode}
               onValueChange={toggleDarkMode}
               style={styles.switch}
+              thumbColor={isDarkMode ? '#007F7F' : '#F4F3F4'}
+              trackColor={{ false: '#767577', true: '#AADFEF' }}
             />
           </View>
 
           {settingsItems.map((item) => (
             <TouchableOpacity
               key={item.id}
-              style={styles.settingsItem}
+              style={styles.card}
               onPress={() => handleNavigation(item.route)}
             >
-              <Icon name={item.icon} size={24} color="#333" style={styles.icon} />
+              <Icon name={item.icon} size={24} color="#007F7F" style={styles.icon} />
               <Text style={styles.itemText}>{t(item.title)}</Text>
-              <Icon name="chevron-forward-outline" size={24} color="#333" />
+              <Icon name="chevron-forward-outline" size={24} color="#007F7F" />
             </TouchableOpacity>
           ))}
 
@@ -97,6 +98,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 32,
     marginTop: '15%',
+    color: '#333',
   },
   content: {
     paddingBottom: '7%',
@@ -104,25 +106,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  darkModeContainer: {
+  card: {
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#FFFFFF',
-    padding: 16,
-    borderRadius: 12,
-    width: '100%',
-    marginBottom: 16,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 2,
-  },
-  settingsItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#FFFFFF',
-    padding: 16,
+    paddingVertical: 16,
+    paddingHorizontal: 20,
     borderRadius: 12,
     width: '100%',
     marginVertical: 8,
@@ -131,6 +120,11 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 2,
+  },
+  darkModeContainer: {
+    justifyContent: 'space-between',
+    paddingHorizontal: 20,
+    marginBottom: 16,
   },
   icon: {
     marginRight: 12,
@@ -141,10 +135,10 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   switch: {
-    marginLeft: 'auto',
+    transform: [{ scale: 1.1 }],
   },
   appVersionText: {
-    color: '#333',
+    color: '#666',
     fontSize: 14,
     marginTop: 20,
     alignSelf: 'center',
