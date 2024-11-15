@@ -59,7 +59,7 @@ const HomeScreen: React.FC = () => {
 
   return (
     <Container>
-      <Title style={{ textAlign: 'center', fontSize: 32, marginTop: '15%' }}>RushTranslate</Title>
+      <Title style={{ textAlign: 'center', fontSize: 32, marginTop: '15%' }}>{t('common.appName')}</Title>
       <Content contentContainerStyle={{ flexGrow: 1, paddingBottom: '7%', paddingHorizontal: 16, justifyContent: 'center', alignItems: 'center' }}>
         
         {/* Main Content Area */}
