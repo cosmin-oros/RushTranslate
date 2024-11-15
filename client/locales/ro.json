@@ -3,7 +3,16 @@
     "appName": "RushTranslate"
   },
   "home": {},
-  "settings": {},
+  "settings": {
+    "dark_mode": "Mod Întunecat",
+    "language": "Setări de Limbă",
+    "offline": "Setări Offline",
+    "privacy": "Politica de Confidențialitate",
+    "clear_data": "Șterge Datele Aplicației",
+    "feedback": "Feedback",
+    "help": "Centru de Ajutor",
+    "app_version": "Versiunea Aplicației: {{version}}"
+  },
   "saved": {
     "title": "Salvate",
     "travel_essentials": "Esențiale de călătorie",

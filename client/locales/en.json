@@ -3,7 +3,16 @@
     "appName": "RushTranslate"
   },
   "home": {},
-  "settings": {},
+  "settings": {
+    "dark_mode": "Dark Mode",
+    "language": "Language Settings",
+    "offline": "Offline Settings",
+    "privacy": "Privacy Policy",
+    "clear_data": "Clear App Data",
+    "feedback": "Feedback",
+    "help": "Help Center",
+    "app_version": "App Version: {{version}}"
+  },
   "saved": {
     "title": "Saved",
     "travel_essentials": "Travel Essentials",
