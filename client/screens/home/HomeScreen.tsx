@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Container, Content, Title } from '../../tamagui.config';
 import { View, TouchableOpacity } from 'react-native';
@@ -6,9 +6,9 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import Card from './components/Card';
 import ActionButton from './components/ActionButton';
 import BottomTabNavigation from './components/BottomTabNavigation';
-import RecordSection from './components/RecordSection'; // Import the RecordSection component
+import RecordSection from './components/RecordSection';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { useNavigation } from '@react-navigation/core';
+import { useFocusEffect, useNavigation } from '@react-navigation/core';
 import { Routes } from '../../routes/routes';
 import { RouteParams } from '../../routes/types';
 import ScanSection from './components/ScanSection';
@@ -40,9 +40,11 @@ const HomeScreen: React.FC = () => {
     }
   };
 
-  useEffect(() => {
-    setSelectedBottomTab('Home');
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      setSelectedBottomTab('Home');
+    }, [])
+  );
 
   const handleActionPress = (action: string) => {
     setSelectedAction(action);
@@ -101,10 +103,9 @@ const HomeScreen: React.FC = () => {
             />
           </View>
         </View>
-
-        {/* Bottom Tab Navigation */}
-        <BottomTabNavigation selectedTab={selectedBottomTab} onTabPress={handleBottomTabPress} />
       </Content>
+
+      <BottomTabNavigation selectedTab={selectedBottomTab} onTabPress={handleBottomTabPress} />
     </Container>
   );
 };
