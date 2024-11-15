@@ -10,6 +10,7 @@ import { useTranslation } from 'react-i18next';
 import { RouteParams } from '../../routes/types';
 import LanguageSettings from './components/LanguageSettings';
 import OfflineSettings from './components/OfflineSettings';
+import PrivacyPolicy from './components/PrivacyPolicy';
 
 type RoutePropType = StackNavigationProp<RouteParams, Routes.Settings>;
 
@@ -44,8 +45,8 @@ const SettingsScreen: React.FC = () => {
         return <LanguageSettings onBackPress={() => setSelectedSection(null)} />;
       case 'OfflineSettings':
         return <OfflineSettings onBackPress={() => setSelectedSection(null)} />;
-      // case 'PrivacyPolicy':
-      //   return <PrivacyPolicy />;
+      case 'PrivacyPolicy':
+        return <PrivacyPolicy onBackPress={() => setSelectedSection(null)} />;
       // case 'ClearAppData':
       //   return <ClearAppData />;
       // case 'Feedback':
