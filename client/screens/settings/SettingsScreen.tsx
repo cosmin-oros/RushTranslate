@@ -8,6 +8,12 @@ import { useFocusEffect, useNavigation } from '@react-navigation/core';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useTranslation } from 'react-i18next';
 import { RouteParams } from '../../routes/types';
+import LanguageSettings from './components/LanguageSettings';
+import OfflineSettings from './components/OfflineSettings';
+import PrivacyPolicy from './components/PrivacyPolicy';
+import ClearAppData from './components/ClearAppData';
+import Feedback from './components/Feedback';
+import HelpCenter from './components/HelpCenter';
 
 type RoutePropType = StackNavigationProp<RouteParams, Routes.Settings>;
 
@@ -16,6 +22,7 @@ const SettingsScreen: React.FC = () => {
   const navigation = useNavigation<RoutePropType>();
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [selectedTab, setSelectedTab] = useState('Settings');
+  const [selectedSection, setSelectedSection] = useState<string | null>(null);
 
   const toggleDarkMode = () => setIsDarkMode((previousState) => !previousState);
 
@@ -34,6 +41,27 @@ const SettingsScreen: React.FC = () => {
     }, [])
   );
 
+  // Render the selected settings section
+  const renderSelectedSection = () => {
+    switch (selectedSection) {
+      case 'LanguageSettings':
+        return <LanguageSettings onBackPress={() => setSelectedSection(null)} />;
+      case 'OfflineSettings':
+        return <OfflineSettings onBackPress={() => setSelectedSection(null)} />;
+      case 'PrivacyPolicy':
+        return <PrivacyPolicy onBackPress={() => setSelectedSection(null)} />;
+      case 'ClearAppData':
+        return <ClearAppData onBackPress={() => setSelectedSection(null)} />;
+      case 'Feedback':
+        return <Feedback onBackPress={() => setSelectedSection(null)} />;
+      case 'HelpCenter':
+        return <HelpCenter onBackPress={() => setSelectedSection(null)} />;
+      default:
+        return null;
+    }
+  };
+
+  // Handle bottom tab navigation
   const handleBottomTabPress = (tab: string) => {
     setSelectedTab(tab);
     switch (tab) {
@@ -51,41 +79,49 @@ const SettingsScreen: React.FC = () => {
     }
   };
 
+  // Handle settings item selection to show specific section
   const handleNavigation = (route: string) => {
-    console.log(`Navigating to ${route}`);
+    setSelectedSection(route);
   };
 
+  // Render either the selected section or the main settings list
   return (
     <Container style={{ backgroundColor: '#F2F5F8' }}>
       <Title style={styles.title}>{t('common.appName')}</Title>
       <Content>
-        <ScrollView contentContainerStyle={styles.content}>
-          <View style={[styles.card, styles.darkModeContainer]}>
-            <Icon name="moon-outline" size={24} color="#007F7F" style={styles.icon} />
-            <Text style={styles.itemText}>{t('settings.dark_mode')}</Text>
-            <Switch
-              value={isDarkMode}
-              onValueChange={toggleDarkMode}
-              style={styles.switch}
-              thumbColor={isDarkMode ? '#007F7F' : '#F4F3F4'}
-              trackColor={{ false: '#767577', true: '#AADFEF' }}
-            />
+        {selectedSection ? (
+          <View>
+            {renderSelectedSection()}
           </View>
+        ) : (
+          <ScrollView contentContainerStyle={styles.content}>
+            <View style={[styles.card, styles.darkModeContainer]}>
+              <Icon name="moon-outline" size={24} color="#007F7F" style={styles.icon} />
+              <Text style={styles.itemText}>{t('settings.dark_mode')}</Text>
+              <Switch
+                value={isDarkMode}
+                onValueChange={toggleDarkMode}
+                style={styles.switch}
+                thumbColor={isDarkMode ? '#007F7F' : '#F4F3F4'}
+                trackColor={{ false: '#767577', true: '#AADFEF' }}
+              />
+            </View>
 
-          {settingsItems.map((item) => (
-            <TouchableOpacity
-              key={item.id}
-              style={styles.card}
-              onPress={() => handleNavigation(item.route)}
-            >
-              <Icon name={item.icon} size={24} color="#007F7F" style={styles.icon} />
-              <Text style={styles.itemText}>{t(item.title)}</Text>
-              <Icon name="chevron-forward-outline" size={24} color="#007F7F" />
-            </TouchableOpacity>
-          ))}
+            {settingsItems.map((item) => (
+              <TouchableOpacity
+                key={item.id}
+                style={styles.card}
+                onPress={() => handleNavigation(item.route)}
+              >
+                <Icon name={item.icon} size={24} color="#007F7F" style={styles.icon} />
+                <Text style={styles.itemText}>{t(item.title)}</Text>
+                <Icon name="chevron-forward-outline" size={24} color="#007F7F" />
+              </TouchableOpacity>
+            ))}
 
-          <Text style={styles.appVersionText}>{t('settings.app_version', { version: '1.0.0' })}</Text>
-        </ScrollView>
+            <Text style={styles.appVersionText}>{t('settings.app_version', { version: '1.0.0' })}</Text>
+          </ScrollView>
+        )}
       </Content>
 
       <BottomTabNavigation selectedTab={selectedTab} onTabPress={handleBottomTabPress} />
@@ -142,6 +178,18 @@ const styles = StyleSheet.create({
     fontSize: 14,
     marginTop: 20,
     alignSelf: 'center',
+  },
+  backButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 16,
+    borderRadius: 8,
+    marginBottom: 10,
+  },
+  backText: {
+    fontSize: 16,
+    color: '#007F7F',
+    marginLeft: 8,
   },
 });
 
