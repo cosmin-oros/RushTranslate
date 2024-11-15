@@ -11,6 +11,7 @@ import { RouteParams } from '../../routes/types';
 import LanguageSettings from './components/LanguageSettings';
 import OfflineSettings from './components/OfflineSettings';
 import PrivacyPolicy from './components/PrivacyPolicy';
+import ClearAppData from './components/ClearAppData';
 
 type RoutePropType = StackNavigationProp<RouteParams, Routes.Settings>;
 
@@ -47,12 +48,12 @@ const SettingsScreen: React.FC = () => {
         return <OfflineSettings onBackPress={() => setSelectedSection(null)} />;
       case 'PrivacyPolicy':
         return <PrivacyPolicy onBackPress={() => setSelectedSection(null)} />;
-      // case 'ClearAppData':
-      //   return <ClearAppData />;
+      case 'ClearAppData':
+        return <ClearAppData onBackPress={() => setSelectedSection(null)} />;
       // case 'Feedback':
-      //   return <Feedback />;
+      //   return <Feedback onBackPress={() => setSelectedSection(null)} />;
       // case 'HelpCenter':
-      //   return <HelpCenter />;
+      //   return <HelpCenter onBackPress={() => setSelectedSection(null)} />;
       default:
         return null;
     }
