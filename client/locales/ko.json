@@ -2,7 +2,12 @@
   "common": {
     "appName": "RushTranslate"
   },
-  "home": {},
+  "home": {
+    "type_text_here": "여기에 텍스트를 입력하세요...",
+    "home": "홈",
+    "saved": "저장됨",
+    "settings": "설정"
+  },
   "settings": {
     "dark_mode": "다크 모드",
     "language": "언어 설정",

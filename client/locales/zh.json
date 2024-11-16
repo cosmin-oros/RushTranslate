@@ -2,7 +2,12 @@
   "common": {
     "appName": "RushTranslate"
   },
-  "home": {},
+  "home": {
+    "type_text_here": "在这里输入文字...",
+    "home": "主页",
+    "saved": "已保存",
+    "settings": "设置"
+  },
   "settings": {
     "dark_mode": "深色模式",
     "language": "语言设置",

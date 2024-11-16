@@ -2,7 +2,12 @@
   "common": {
     "appName": "RushTranslate"
   },
-  "home": {},
+  "home": {
+    "type_text_here": "यहां पाठ दर्ज करें...",
+    "home": "होम",
+    "saved": "सहेजा गया",
+    "settings": "सेटिंग्स"
+  },
   "settings": {
     "dark_mode": "डार्क मोड",
     "language": "भाषा सेटिंग्स",

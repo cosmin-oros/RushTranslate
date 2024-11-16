@@ -13,6 +13,7 @@ export interface CardProps {
   title: string;
   textInputValue: string;
   setTextInputValue: (value: string) => void;
+  placeholder: string;
 }
 
 export type ScanSectionProps = {

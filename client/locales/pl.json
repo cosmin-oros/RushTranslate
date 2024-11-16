@@ -2,7 +2,12 @@
   "common": {
     "appName": "RushTranslate"
   },
-  "home": {},
+  "home": {
+    "type_text_here": "Wpisz tekst tutaj...",
+    "home": "Strona Główna",
+    "saved": "Zapisane",
+    "settings": "Ustawienia"
+  },
   "settings": {
     "dark_mode": "Tryb Ciemny",
     "language": "Ustawienia Języka",

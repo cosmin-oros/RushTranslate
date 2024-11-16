@@ -2,7 +2,12 @@
   "common": {
     "appName": "RushTranslate"
   },
-  "home": {},
+  "home": {
+    "type_text_here": "Nhập văn bản tại đây...",
+    "home": "Trang Chủ",
+    "saved": "Đã Lưu",
+    "settings": "Cài Đặt"
+  },
   "settings": {
     "dark_mode": "Chế độ Tối",
     "language": "Cài đặt Ngôn ngữ",

@@ -2,7 +2,12 @@
   "common": {
     "appName": "RushTranslate"
   },
-  "home": {},
+  "home": {
+    "type_text_here": "Buraya metin yazın...",
+    "home": "Ana Sayfa",
+    "saved": "Kaydedildi",
+    "settings": "Ayarlar"
+  },
   "settings": {
     "dark_mode": "Karanlık Mod",
     "language": "Dil Ayarları",

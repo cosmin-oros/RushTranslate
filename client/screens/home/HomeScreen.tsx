@@ -66,14 +66,14 @@ const HomeScreen: React.FC = () => {
         <View style={{ gap: 16, width: '100%', alignItems: 'center' }}>
           {selectedAction === 'Write' ? (
             <>
-              <Card title={languages.top} textInputValue={textInputValue} setTextInputValue={setTextInputValue} />
+              <Card title={languages.top} placeholder={t('home.type_text_here')} textInputValue={textInputValue} setTextInputValue={setTextInputValue} />
               
               {/* Language Switch Icon */}
               <TouchableOpacity onPress={handleLanguageSwitch} style={{ marginVertical: 16 }}>
                 <Icon name="swap-vertical" size={30} color="#007F7F" />
               </TouchableOpacity>
               
-              <Card title={languages.bottom} textInputValue={textInputValue} setTextInputValue={setTextInputValue} />
+              <Card title={languages.bottom} placeholder={t('home.type_text_here')} textInputValue={textInputValue} setTextInputValue={setTextInputValue} />
             </>
           ) : selectedAction === 'Record' ? (
             <RecordSection onTextGenerated={(text) => setTextInputValue(text)} /> 
