@@ -1,0 +1,64 @@
+{
+  "common": {
+    "appName": "RushTranslate"
+  },
+  "home": {
+    "type_text_here": "在这里输入文字...",
+    "home": "主页",
+    "saved": "已保存",
+    "settings": "设置"
+  },
+  "settings": {
+    "dark_mode": "深色模式",
+    "language": "语言设置",
+    "offline": "离线设置",
+    "privacy": "隐私政策",
+    "clear_data": "清除应用数据",
+    "feedback": "反馈",
+    "help": "帮助中心",
+    "app_version": "应用版本：{{version}}"
+  },
+  "saved": {
+    "title": "已保存",
+    "travel_essentials": "旅行必需品",
+    "business_essentials": "商务必需品",
+    "medical_care_essentials": "医疗必需品",
+    "size_mb": "{{size}} MB",
+    "download": "下载",
+    "remove": "移除",
+    "downloading": "正在下载...",
+    "clear_all_downloads": "清除所有下载"
+  },
+  "welcome": {
+    "subtitle": "离线轻松翻译超过20种语言",
+    "get_started": "开始使用"
+  },
+  "languageSettings": {
+    "title": "语言设置",
+    "languages": {
+      "en": "英语",
+      "ro": "罗马尼亚语"
+    }
+  },
+  "offlineSettings": {
+    "title": "离线设置",
+    "description": "管理您的离线首选项和下载。"
+  },
+  "privacyPolicy": {
+    "title": "隐私政策",
+    "description": "阅读我们的隐私政策，了解我们如何处理您的数据。"
+  },
+  "clearAppData": {
+    "title": "清除应用数据",
+    "description": "清除所有应用数据，包括偏好设置和保存的项目。",
+    "button": "清除数据"
+  },
+  "feedback": {
+    "title": "反馈",
+    "description": "我们重视您的反馈。请告诉我们如何改进。"
+  },
+  "helpCenter": {
+    "title": "帮助中心",
+    "description": "找到常见问题的答案或联系支持寻求帮助。"
+  }
+}

@@ -1,0 +1,64 @@
+{
+  "common": {
+    "appName": "RushTranslate"
+  },
+  "home": {
+    "type_text_here": "여기에 텍스트를 입력하세요...",
+    "home": "홈",
+    "saved": "저장됨",
+    "settings": "설정"
+  },
+  "settings": {
+    "dark_mode": "다크 모드",
+    "language": "언어 설정",
+    "offline": "오프라인 설정",
+    "privacy": "개인정보 보호정책",
+    "clear_data": "앱 데이터 삭제",
+    "feedback": "피드백",
+    "help": "도움말 센터",
+    "app_version": "앱 버전: {{version}}"
+  },
+  "saved": {
+    "title": "저장됨",
+    "travel_essentials": "여행 필수품",
+    "business_essentials": "비즈니스 필수품",
+    "medical_care_essentials": "의료 필수품",
+    "size_mb": "{{size}} MB",
+    "download": "다운로드",
+    "remove": "제거",
+    "downloading": "다운로드 중...",
+    "clear_all_downloads": "모든 다운로드 삭제"
+  },
+  "welcome": {
+    "subtitle": "20개 이상의 언어를 오프라인으로 손쉽게 번역하세요",
+    "get_started": "시작하기"
+  },
+  "languageSettings": {
+    "title": "언어 설정",
+    "languages": {
+      "en": "영어",
+      "ro": "루마니아어"
+    }
+  },
+  "offlineSettings": {
+    "title": "오프라인 설정",
+    "description": "오프라인 환경 설정 및 다운로드를 관리하세요."
+  },
+  "privacyPolicy": {
+    "title": "개인정보 보호정책",
+    "description": "당사가 데이터를 처리하는 방법을 이해하려면 개인정보 보호정책을 읽어보세요."
+  },
+  "clearAppData": {
+    "title": "앱 데이터 삭제",
+    "description": "저장된 항목 및 환경 설정을 포함한 모든 앱 데이터를 삭제하세요.",
+    "button": "데이터 삭제"
+  },
+  "feedback": {
+    "title": "피드백",
+    "description": "여러분의 피드백은 저희에게 소중합니다. 개선 방법을 알려주세요."
+  },
+  "helpCenter": {
+    "title": "도움말 센터",
+    "description": "자주 묻는 질문에 대한 답변을 찾거나 지원에 문의하세요."
+  }
+}

@@ -2,12 +2,14 @@ import React from 'react';
 import { View, TouchableOpacity, Text } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { BottomTabNavigationProps } from '../../../types';
+import { useTranslation } from 'react-i18next';
 
 const BottomTabNavigation: React.FC<BottomTabNavigationProps> = ({ selectedTab, onTabPress }) => {
+  const { t } = useTranslation();
   const tabs = [
-    { label: 'Home', iconName: 'home' },
-    { label: 'Saved', iconName: 'bookmark' },
-    { label: 'Settings', iconName: 'settings' },
+    { tab: 'Home', label: t('home.home'), iconName: 'home' },
+    { tab: 'Saved', label: t('home.saved'), iconName: 'bookmark' },
+    { tab: 'Settings', label: t('home.settings'), iconName: 'settings' },
   ];
 
   return (
@@ -30,11 +32,11 @@ const BottomTabNavigation: React.FC<BottomTabNavigationProps> = ({ selectedTab, 
       {tabs.map((tab) => (
         <TouchableOpacity
           key={tab.label}
-          onPress={() => onTabPress(tab.label)}
+          onPress={() => onTabPress(tab.tab)}
           style={{ alignItems: 'center', flex: 1 }}
         >
-          <Icon name={tab.iconName} size={24} color={selectedTab === tab.label ? '#007F7F' : '#A9A9A9'} />
-          <Text style={{ color: selectedTab === tab.label ? '#007F7F' : '#A9A9A9' }}>{tab.label}</Text>
+          <Icon name={tab.iconName} size={24} color={selectedTab === tab.tab ? '#007F7F' : '#A9A9A9'} />
+          <Text style={{ color: selectedTab === tab.tab ? '#007F7F' : '#A9A9A9' }}>{tab.label}</Text>
         </TouchableOpacity>
       ))}
     </View>

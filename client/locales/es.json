@@ -1,0 +1,64 @@
+{
+  "common": {
+    "appName": "RushTranslate"
+  },
+  "home": {
+    "type_text_here": "Escriba texto aquí...",
+    "home": "Inicio",
+    "saved": "Guardado",
+    "settings": "Configuración"
+  },
+  "settings": {
+    "dark_mode": "Modo Oscuro",
+    "language": "Configuración de Idioma",
+    "offline": "Configuración sin Conexión",
+    "privacy": "Política de Privacidad",
+    "clear_data": "Borrar Datos de la App",
+    "feedback": "Comentarios",
+    "help": "Centro de Ayuda",
+    "app_version": "Versión de la App: {{version}}"
+  },
+  "saved": {
+    "title": "Guardados",
+    "travel_essentials": "Esenciales para Viajes",
+    "business_essentials": "Esenciales para Negocios",
+    "medical_care_essentials": "Cuidado Médico Esencial",
+    "size_mb": "{{size}} MB",
+    "download": "Descargar",
+    "remove": "Eliminar",
+    "downloading": "Descargando...",
+    "clear_all_downloads": "Borrar Todas las Descargas"
+  },
+  "welcome": {
+    "subtitle": "Traduce sin esfuerzo sin conexión en más de 20 idiomas",
+    "get_started": "Comenzar"
+  },
+  "languageSettings": {
+    "title": "Configuración de Idioma",
+    "languages": {
+      "en": "Inglés",
+      "ro": "Rumano"
+    }
+  },
+  "offlineSettings": {
+    "title": "Configuración sin Conexión",
+    "description": "Gestiona tus preferencias y descargas sin conexión."
+  },
+  "privacyPolicy": {
+    "title": "Política de Privacidad",
+    "description": "Lee nuestra política de privacidad para entender cómo manejamos tus datos."
+  },
+  "clearAppData": {
+    "title": "Borrar Datos de la App",
+    "description": "Borra todos los datos de la app, incluidas preferencias y elementos guardados.",
+    "button": "Borrar Datos"
+  },
+  "feedback": {
+    "title": "Comentarios",
+    "description": "Valoramos tus comentarios. Por favor, dinos cómo podemos mejorar."
+  },
+  "helpCenter": {
+    "title": "Centro de Ayuda",
+    "description": "Encuentra respuestas a preguntas frecuentes o contacta soporte para asistencia."
+  }
+}

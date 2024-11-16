@@ -1,0 +1,64 @@
+{
+  "common": {
+    "appName": "RushTranslate"
+  },
+  "home": {
+    "type_text_here": "Buraya metin yazın...",
+    "home": "Ana Sayfa",
+    "saved": "Kaydedildi",
+    "settings": "Ayarlar"
+  },
+  "settings": {
+    "dark_mode": "Karanlık Mod",
+    "language": "Dil Ayarları",
+    "offline": "Çevrimdışı Ayarlar",
+    "privacy": "Gizlilik Politikası",
+    "clear_data": "Uygulama Verilerini Temizle",
+    "feedback": "Geri Bildirim",
+    "help": "Yardım Merkezi",
+    "app_version": "Uygulama Sürümü: {{version}}"
+  },
+  "saved": {
+    "title": "Kaydedildi",
+    "travel_essentials": "Seyahat Gereksinimleri",
+    "business_essentials": "İş Gereksinimleri",
+    "medical_care_essentials": "Tıbbi Bakım Gereksinimleri",
+    "size_mb": "{{size}} MB",
+    "download": "İndir",
+    "remove": "Kaldır",
+    "downloading": "İndiriliyor...",
+    "clear_all_downloads": "Tüm İndirmeleri Temizle"
+  },
+  "welcome": {
+    "subtitle": "20'den fazla dilde çevrimdışı kolayca çeviri yapın",
+    "get_started": "Başlayın"
+  },
+  "languageSettings": {
+    "title": "Dil Ayarları",
+    "languages": {
+      "en": "İngilizce",
+      "ro": "Romence"
+    }
+  },
+  "offlineSettings": {
+    "title": "Çevrimdışı Ayarlar",
+    "description": "Çevrimdışı tercihlerinizi ve indirmelerinizi yönetin."
+  },
+  "privacyPolicy": {
+    "title": "Gizlilik Politikası",
+    "description": "Verilerinizi nasıl işlediğimizi anlamak için gizlilik politikamızı okuyun."
+  },
+  "clearAppData": {
+    "title": "Uygulama Verilerini Temizle",
+    "description": "Tercihler ve kaydedilen öğeler dahil tüm uygulama verilerini temizleyin.",
+    "button": "Verileri Temizle"
+  },
+  "feedback": {
+    "title": "Geri Bildirim",
+    "description": "Geri bildiriminize değer veriyoruz. Nasıl geliştirebileceğimizi bize bildirin."
+  },
+  "helpCenter": {
+    "title": "Yardım Merkezi",
+    "description": "Sık sorulan soruların cevaplarını bulun veya yardım için destek ile iletişime geçin."
+  }
+}

@@ -1,0 +1,64 @@
+{
+  "common": {
+    "appName": "RushTranslate"
+  },
+  "home": {
+    "type_text_here": "Tapez du texte ici...",
+    "home": "Accueil",
+    "saved": "Enregistré",
+    "settings": "Paramètres"
+  },
+  "settings": {
+    "dark_mode": "Mode Sombre",
+    "language": "Paramètres de Langue",
+    "offline": "Paramètres Hors Ligne",
+    "privacy": "Politique de Confidentialité",
+    "clear_data": "Effacer les Données de l'Application",
+    "feedback": "Retour d'information",
+    "help": "Centre d'Aide",
+    "app_version": "Version de l'Application : {{version}}"
+  },
+  "saved": {
+    "title": "Enregistré",
+    "travel_essentials": "Essentiels de Voyage",
+    "business_essentials": "Essentiels d'Affaires",
+    "medical_care_essentials": "Soins Médicaux Essentiels",
+    "size_mb": "{{size}} MB",
+    "download": "Télécharger",
+    "remove": "Supprimer",
+    "downloading": "Téléchargement...",
+    "clear_all_downloads": "Effacer Tous les Téléchargements"
+  },
+  "welcome": {
+    "subtitle": "Traduisez facilement hors ligne en plus de 20 langues",
+    "get_started": "Commencer"
+  },
+  "languageSettings": {
+    "title": "Paramètres de Langue",
+    "languages": {
+      "en": "Anglais",
+      "ro": "Roumain"
+    }
+  },
+  "offlineSettings": {
+    "title": "Paramètres Hors Ligne",
+    "description": "Gérez vos préférences et téléchargements hors ligne."
+  },
+  "privacyPolicy": {
+    "title": "Politique de Confidentialité",
+    "description": "Lisez notre politique de confidentialité pour comprendre comment nous gérons vos données."
+  },
+  "clearAppData": {
+    "title": "Effacer les Données de l'Application",
+    "description": "Effacez toutes les données de l'application, y compris les préférences et les éléments enregistrés.",
+    "button": "Effacer les Données"
+  },
+  "feedback": {
+    "title": "Retour d'information",
+    "description": "Nous apprécions vos commentaires. Faites-nous savoir comment nous pouvons nous améliorer."
+  },
+  "helpCenter": {
+    "title": "Centre d'Aide",
+    "description": "Trouvez des réponses aux questions fréquentes ou contactez le support pour obtenir de l'aide."
+  }
+}

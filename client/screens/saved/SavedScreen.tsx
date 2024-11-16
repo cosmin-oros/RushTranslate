@@ -54,7 +54,7 @@ const SavedScreen: React.FC = () => {
     if (!downloadItem) return;
 
     const { title } = downloadItem;
-    const language = "fr"; // ! mock replace later 
+    const language = "fr"; // ! mock replace later, also make a dropdown to select a different language or detect using location etc
 
     try {
       setDownloads((prevDownloads) =>

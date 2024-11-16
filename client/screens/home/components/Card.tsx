@@ -2,14 +2,14 @@ import React from 'react';
 import { View, Text, TextInput, StyleSheet } from 'react-native';
 import { CardProps } from '../../../types';
 
-const Card: React.FC<CardProps> = ({ title, textInputValue, setTextInputValue }) => (
+const Card: React.FC<CardProps> = ({ title, textInputValue, setTextInputValue, placeholder }) => (
   <View style={styles.card}>
     <View style={styles.languageContainer}>
       <Text style={styles.languageText}>{title}</Text>
     </View>
     <TextInput
       style={styles.textInput}
-      placeholder="Type text here..."
+      placeholder={placeholder}
       value={textInputValue}
       onChangeText={setTextInputValue}
       multiline

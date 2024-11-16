@@ -1,0 +1,64 @@
+{
+  "common": {
+    "appName": "RushTranslate"
+  },
+  "home": {
+    "type_text_here": "اكتب النص هنا...",
+    "home": "الصفحة الرئيسية",
+    "saved": "المحفوظة",
+    "settings": "الإعدادات"
+  },
+  "settings": {
+    "dark_mode": "الوضع الداكن",
+    "language": "إعدادات اللغة",
+    "offline": "إعدادات غير متصل",
+    "privacy": "سياسة الخصوصية",
+    "clear_data": "مسح بيانات التطبيق",
+    "feedback": "ملاحظات",
+    "help": "مركز المساعدة",
+    "app_version": "إصدار التطبيق: {{version}}"
+  },
+  "saved": {
+    "title": "المحفوظة",
+    "travel_essentials": "الضروريات للسفر",
+    "business_essentials": "الضروريات التجارية",
+    "medical_care_essentials": "الضروريات الطبية",
+    "size_mb": "{{size}} ميغابايت",
+    "download": "تنزيل",
+    "remove": "إزالة",
+    "downloading": "جارٍ التنزيل...",
+    "clear_all_downloads": "مسح جميع التنزيلات"
+  },
+  "welcome": {
+    "subtitle": "ترجم بسهولة دون اتصال بأكثر من 20 لغة",
+    "get_started": "ابدأ"
+  },
+  "languageSettings": {
+    "title": "إعدادات اللغة",
+    "languages": {
+      "en": "الإنجليزية",
+      "ro": "الرومانية"
+    }
+  },
+  "offlineSettings": {
+    "title": "إعدادات غير متصل",
+    "description": "إدارة تفضيلاتك وتنزيلاتك دون اتصال."
+  },
+  "privacyPolicy": {
+    "title": "سياسة الخصوصية",
+    "description": "اقرأ سياسة الخصوصية الخاصة بنا لفهم كيفية تعاملنا مع بياناتك."
+  },
+  "clearAppData": {
+    "title": "مسح بيانات التطبيق",
+    "description": "مسح جميع بيانات التطبيق، بما في ذلك التفضيلات والعناصر المحفوظة.",
+    "button": "مسح البيانات"
+  },
+  "feedback": {
+    "title": "ملاحظات",
+    "description": "نقدّر ملاحظاتك. من فضلك أخبرنا كيف يمكننا التحسين."
+  },
+  "helpCenter": {
+    "title": "مركز المساعدة",
+    "description": "اعثر على إجابات للأسئلة الشائعة أو تواصل مع الدعم للحصول على المساعدة."
+  }
+}
