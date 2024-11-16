@@ -8,6 +8,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { useTranslation } from 'react-i18next';
 import { RouteParams } from '../../routes/types';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { fetchLanguageTranslations } from '../../services/translationService';
 
 type RoutePropType = StackNavigationProp<RouteParams, Routes.Saved>;
 
@@ -48,28 +49,46 @@ const SavedScreen: React.FC = () => {
     }
   };
 
-  const handleDownload = (id: number) => {
-    const updatedDownloads = downloads.map((item) => {
-      if (item.id === id) {
-        return { ...item, status: 'In Progress', progress: new Animated.Value(0) };
-      }
-      return item;
-    });
-    setDownloads(updatedDownloads);
+  const handleDownload = async (id: number) => {
+    const downloadItem = downloads.find((item) => item.id === id);
+    if (!downloadItem) return;
 
-    const progressAnimation = updatedDownloads.find((item) => item.id === id)?.progress as Animated.Value;
+    const { title } = downloadItem;
+    const language = "fr"; // ! mock replace later 
 
-    Animated.timing(progressAnimation, {
-      toValue: 100,
-      duration: 5000, // 5 seconds
-      useNativeDriver: false,
-    }).start(() => {
+    try {
       setDownloads((prevDownloads) =>
         prevDownloads.map((item) =>
-          item.id === id ? { ...item, status: 'Remove', progress: 100 } : item
+          item.id === id ? { ...item, status: "In Progress", progress: new Animated.Value(0) } : item
         )
       );
-    });
+
+      const translations = await fetchLanguageTranslations(title.replace("saved.", ""), language);
+
+      console.log("Fetched Translations:", translations); 
+
+      const progressAnimation = downloads.find((item) => item.id === id)?.progress as Animated.Value;
+
+      Animated.timing(progressAnimation, {
+        toValue: 100,
+        duration: 5000, 
+        useNativeDriver: false,
+      }).start(() => {
+        setDownloads((prevDownloads) =>
+          prevDownloads.map((item) =>
+            item.id === id ? { ...item, status: "Remove", progress: 100 } : item
+          )
+        );
+      });
+    } catch (error) {
+      console.error("Error downloading translations:", error);
+
+      setDownloads((prevDownloads) =>
+        prevDownloads.map((item) =>
+          item.id === id ? { ...item, status: "Download", progress: 0 } : item
+        )
+      );
+    }
   };
 
   const handleRemove = (id: number) => {

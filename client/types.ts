@@ -19,3 +19,13 @@ export type ScanSectionProps = {
   languages: { top: string; bottom: string };
   handleLanguageSwitch: () => void;
 };
+
+export interface Translation {
+  key: string;
+  text: string;
+}
+
+export interface LanguageTranslations {
+  language: string;
+  translations: Translation[];
+}
