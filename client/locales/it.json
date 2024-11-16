@@ -1,0 +1,59 @@
+{
+  "common": {
+    "appName": "RushTranslate"
+  },
+  "home": {},
+  "settings": {
+    "dark_mode": "Modalità Scura",
+    "language": "Impostazioni Lingua",
+    "offline": "Impostazioni Offline",
+    "privacy": "Informativa sulla Privacy",
+    "clear_data": "Cancella Dati App",
+    "feedback": "Feedback",
+    "help": "Centro Assistenza",
+    "app_version": "Versione App: {{version}}"
+  },
+  "saved": {
+    "title": "Salvati",
+    "travel_essentials": "Elementi Essenziali per Viaggi",
+    "business_essentials": "Elementi Essenziali per il Business",
+    "medical_care_essentials": "Cure Mediche Essenziali",
+    "size_mb": "{{size}} MB",
+    "download": "Scarica",
+    "remove": "Rimuovi",
+    "downloading": "Scaricamento in corso...",
+    "clear_all_downloads": "Cancella Tutti i Download"
+  },
+  "welcome": {
+    "subtitle": "Traduci offline senza sforzo in oltre 20 lingue",
+    "get_started": "Inizia"
+  },
+  "languageSettings": {
+    "title": "Impostazioni Lingua",
+    "languages": {
+      "en": "Inglese",
+      "ro": "Romeno"
+    }
+  },
+  "offlineSettings": {
+    "title": "Impostazioni Offline",
+    "description": "Gestisci le tue preferenze e i tuoi download offline."
+  },
+  "privacyPolicy": {
+    "title": "Informativa sulla Privacy",
+    "description": "Leggi la nostra informativa sulla privacy per capire come trattiamo i tuoi dati."
+  },
+  "clearAppData": {
+    "title": "Cancella Dati App",
+    "description": "Cancella tutti i dati dell'app, incluse preferenze e elementi salvati.",
+    "button": "Cancella Dati"
+  },
+  "feedback": {
+    "title": "Feedback",
+    "description": "Apprezziamo il tuo feedback. Facci sapere come possiamo migliorare."
+  },
+  "helpCenter": {
+    "title": "Centro Assistenza",
+    "description": "Trova risposte alle domande frequenti o contatta il supporto per assistenza."
+  }
+}

@@ -1,0 +1,59 @@
+{
+  "common": {
+    "appName": "RushTranslate"
+  },
+  "home": {},
+  "settings": {
+    "dark_mode": "ダークモード",
+    "language": "言語設定",
+    "offline": "オフライン設定",
+    "privacy": "プライバシーポリシー",
+    "clear_data": "アプリデータを消去",
+    "feedback": "フィードバック",
+    "help": "ヘルプセンター",
+    "app_version": "アプリバージョン: {{version}}"
+  },
+  "saved": {
+    "title": "保存済み",
+    "travel_essentials": "旅行必需品",
+    "business_essentials": "ビジネス必需品",
+    "medical_care_essentials": "医療必需品",
+    "size_mb": "{{size}} MB",
+    "download": "ダウンロード",
+    "remove": "削除",
+    "downloading": "ダウンロード中...",
+    "clear_all_downloads": "すべてのダウンロードを消去"
+  },
+  "welcome": {
+    "subtitle": "20以上の言語をオフラインで簡単に翻訳",
+    "get_started": "始める"
+  },
+  "languageSettings": {
+    "title": "言語設定",
+    "languages": {
+      "en": "英語",
+      "ro": "ルーマニア語"
+    }
+  },
+  "offlineSettings": {
+    "title": "オフライン設定",
+    "description": "オフラインの設定とダウンロードを管理します。"
+  },
+  "privacyPolicy": {
+    "title": "プライバシーポリシー",
+    "description": "私たちがデータをどのように取り扱うかを理解するためにプライバシーポリシーをお読みください。"
+  },
+  "clearAppData": {
+    "title": "アプリデータを消去",
+    "description": "設定や保存された項目を含むすべてのアプリデータを消去します。",
+    "button": "データを消去"
+  },
+  "feedback": {
+    "title": "フィードバック",
+    "description": "フィードバックをお寄せください。改善方法を教えてください。"
+  },
+  "helpCenter": {
+    "title": "ヘルプセンター",
+    "description": "よくある質問の回答を見つけるか、サポートに連絡してヘルプを求めてください。"
+  }
+}

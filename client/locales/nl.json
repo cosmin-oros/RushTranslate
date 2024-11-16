@@ -1,0 +1,59 @@
+{
+  "common": {
+    "appName": "RushTranslate"
+  },
+  "home": {},
+  "settings": {
+    "dark_mode": "Donkere Modus",
+    "language": "Taalinstellingen",
+    "offline": "Offline Instellingen",
+    "privacy": "Privacybeleid",
+    "clear_data": "App Gegevens Wissen",
+    "feedback": "Feedback",
+    "help": "Helpcentrum",
+    "app_version": "App-versie: {{version}}"
+  },
+  "saved": {
+    "title": "Opgeslagen",
+    "travel_essentials": "Essentiële Reisspullen",
+    "business_essentials": "Essentiële Zakenspullen",
+    "medical_care_essentials": "Essentiële Medische Verzorging",
+    "size_mb": "{{size}} MB",
+    "download": "Downloaden",
+    "remove": "Verwijderen",
+    "downloading": "Bezig met downloaden...",
+    "clear_all_downloads": "Alle Downloads Wissen"
+  },
+  "welcome": {
+    "subtitle": "Vertaal moeiteloos offline in meer dan 20 talen",
+    "get_started": "Aan de slag"
+  },
+  "languageSettings": {
+    "title": "Taalinstellingen",
+    "languages": {
+      "en": "Engels",
+      "ro": "Roemeens"
+    }
+  },
+  "offlineSettings": {
+    "title": "Offline Instellingen",
+    "description": "Beheer uw offline voorkeuren en downloads."
+  },
+  "privacyPolicy": {
+    "title": "Privacybeleid",
+    "description": "Lees ons privacybeleid om te begrijpen hoe wij met uw gegevens omgaan."
+  },
+  "clearAppData": {
+    "title": "App Gegevens Wissen",
+    "description": "Wis alle app-gegevens, inclusief voorkeuren en opgeslagen items.",
+    "button": "Gegevens Wissen"
+  },
+  "feedback": {
+    "title": "Feedback",
+    "description": "We waarderen uw feedback. Laat ons weten hoe we kunnen verbeteren."
+  },
+  "helpCenter": {
+    "title": "Helpcentrum",
+    "description": "Vind antwoorden op veelgestelde vragen of neem contact op met ondersteuning voor hulp."
+  }
+}

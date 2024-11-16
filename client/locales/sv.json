@@ -1,0 +1,59 @@
+{
+  "common": {
+    "appName": "RushTranslate"
+  },
+  "home": {},
+  "settings": {
+    "dark_mode": "Mörkt Läge",
+    "language": "Språkinställningar",
+    "offline": "Inställningar för Offline",
+    "privacy": "Integritetspolicy",
+    "clear_data": "Rensa Appdata",
+    "feedback": "Feedback",
+    "help": "Hjälpcenter",
+    "app_version": "Appversion: {{version}}"
+  },
+  "saved": {
+    "title": "Sparad",
+    "travel_essentials": "Resenödvändigheter",
+    "business_essentials": "Affärsnödvändigheter",
+    "medical_care_essentials": "Medicinska Nödvändigheter",
+    "size_mb": "{{size}} MB",
+    "download": "Ladda ner",
+    "remove": "Ta bort",
+    "downloading": "Laddar ner...",
+    "clear_all_downloads": "Rensa alla Nedladdningar"
+  },
+  "welcome": {
+    "subtitle": "Översätt enkelt offline på över 20 språk",
+    "get_started": "Kom igång"
+  },
+  "languageSettings": {
+    "title": "Språkinställningar",
+    "languages": {
+      "en": "Engelska",
+      "ro": "Rumänska"
+    }
+  },
+  "offlineSettings": {
+    "title": "Inställningar för Offline",
+    "description": "Hantera dina offlineinställningar och nedladdningar."
+  },
+  "privacyPolicy": {
+    "title": "Integritetspolicy",
+    "description": "Läs vår integritetspolicy för att förstå hur vi hanterar dina data."
+  },
+  "clearAppData": {
+    "title": "Rensa Appdata",
+    "description": "Rensa alla appdata, inklusive inställningar och sparade objekt.",
+    "button": "Rensa Data"
+  },
+  "feedback": {
+    "title": "Feedback",
+    "description": "Vi värdesätter din feedback. Vänligen låt oss veta hur vi kan förbättra oss."
+  },
+  "helpCenter": {
+    "title": "Hjälpcenter",
+    "description": "Hitta svar på vanliga frågor eller kontakta support för hjälp."
+  }
+}

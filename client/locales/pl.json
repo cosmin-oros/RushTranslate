@@ -1,0 +1,59 @@
+{
+  "common": {
+    "appName": "RushTranslate"
+  },
+  "home": {},
+  "settings": {
+    "dark_mode": "Tryb Ciemny",
+    "language": "Ustawienia Języka",
+    "offline": "Ustawienia Offline",
+    "privacy": "Polityka Prywatności",
+    "clear_data": "Wyczyść Dane Aplikacji",
+    "feedback": "Opinie",
+    "help": "Centrum Pomocy",
+    "app_version": "Wersja Aplikacji: {{version}}"
+  },
+  "saved": {
+    "title": "Zapisane",
+    "travel_essentials": "Niezbędniki Podróżne",
+    "business_essentials": "Niezbędniki Biznesowe",
+    "medical_care_essentials": "Niezbędniki Medyczne",
+    "size_mb": "{{size}} MB",
+    "download": "Pobierz",
+    "remove": "Usuń",
+    "downloading": "Pobieranie...",
+    "clear_all_downloads": "Wyczyść Wszystkie Pobrania"
+  },
+  "welcome": {
+    "subtitle": "Tłumacz offline w ponad 20 językach bez wysiłku",
+    "get_started": "Rozpocznij"
+  },
+  "languageSettings": {
+    "title": "Ustawienia Języka",
+    "languages": {
+      "en": "Angielski",
+      "ro": "Rumuński"
+    }
+  },
+  "offlineSettings": {
+    "title": "Ustawienia Offline",
+    "description": "Zarządzaj swoimi preferencjami offline i pobraniami."
+  },
+  "privacyPolicy": {
+    "title": "Polityka Prywatności",
+    "description": "Przeczytaj naszą politykę prywatności, aby dowiedzieć się, jak zarządzamy Twoimi danymi."
+  },
+  "clearAppData": {
+    "title": "Wyczyść Dane Aplikacji",
+    "description": "Wyczyść wszystkie dane aplikacji, w tym preferencje i zapisane elementy.",
+    "button": "Wyczyść Dane"
+  },
+  "feedback": {
+    "title": "Opinie",
+    "description": "Doceniamy Twoją opinię. Prosimy, podziel się sugestiami dotyczącymi ulepszeń."
+  },
+  "helpCenter": {
+    "title": "Centrum Pomocy",
+    "description": "Znajdź odpowiedzi na często zadawane pytania lub skontaktuj się z pomocą techniczną w celu uzyskania wsparcia."
+  }
+}

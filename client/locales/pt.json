@@ -1,0 +1,59 @@
+{
+  "common": {
+    "appName": "RushTranslate"
+  },
+  "home": {},
+  "settings": {
+    "dark_mode": "Modo Escuro",
+    "language": "Configurações de Idioma",
+    "offline": "Configurações Offline",
+    "privacy": "Política de Privacidade",
+    "clear_data": "Limpar Dados do Aplicativo",
+    "feedback": "Feedback",
+    "help": "Central de Ajuda",
+    "app_version": "Versão do Aplicativo: {{version}}"
+  },
+  "saved": {
+    "title": "Salvo",
+    "travel_essentials": "Essenciais de Viagem",
+    "business_essentials": "Essenciais de Negócios",
+    "medical_care_essentials": "Cuidados Médicos Essenciais",
+    "size_mb": "{{size}} MB",
+    "download": "Baixar",
+    "remove": "Remover",
+    "downloading": "Baixando...",
+    "clear_all_downloads": "Limpar Todos os Downloads"
+  },
+  "welcome": {
+    "subtitle": "Traduza offline com facilidade em mais de 20 idiomas",
+    "get_started": "Começar"
+  },
+  "languageSettings": {
+    "title": "Configurações de Idioma",
+    "languages": {
+      "en": "Inglês",
+      "ro": "Romeno"
+    }
+  },
+  "offlineSettings": {
+    "title": "Configurações Offline",
+    "description": "Gerencie suas preferências e downloads offline."
+  },
+  "privacyPolicy": {
+    "title": "Política de Privacidade",
+    "description": "Leia nossa política de privacidade para entender como lidamos com seus dados."
+  },
+  "clearAppData": {
+    "title": "Limpar Dados do Aplicativo",
+    "description": "Limpe todos os dados do aplicativo, incluindo preferências e itens salvos.",
+    "button": "Limpar Dados"
+  },
+  "feedback": {
+    "title": "Feedback",
+    "description": "Valorizamos seu feedback. Informe-nos como podemos melhorar."
+  },
+  "helpCenter": {
+    "title": "Central de Ajuda",
+    "description": "Encontre respostas para perguntas frequentes ou entre em contato com o suporte para assistência."
+  }
+}

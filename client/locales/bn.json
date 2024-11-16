@@ -1,0 +1,59 @@
+{
+  "common": {
+    "appName": "RushTranslate"
+  },
+  "home": {},
+  "settings": {
+    "dark_mode": "ডার্ক মোড",
+    "language": "ভাষার সেটিংস",
+    "offline": "অফলাইন সেটিংস",
+    "privacy": "গোপনীয়তা নীতি",
+    "clear_data": "অ্যাপ ডেটা মুছুন",
+    "feedback": "মতামত",
+    "help": "সহায়তা কেন্দ্র",
+    "app_version": "অ্যাপ সংস্করণ: {{version}}"
+  },
+  "saved": {
+    "title": "সংরক্ষিত",
+    "travel_essentials": "ভ্রমণের প্রয়োজনীয় জিনিস",
+    "business_essentials": "ব্যবসার প্রয়োজনীয় জিনিস",
+    "medical_care_essentials": "চিকিৎসা যত্ন প্রয়োজনীয় জিনিস",
+    "size_mb": "{{size}} এমবি",
+    "download": "ডাউনলোড করুন",
+    "remove": "সরান",
+    "downloading": "ডাউনলোড হচ্ছে...",
+    "clear_all_downloads": "সমস্ত ডাউনলোড মুছুন"
+  },
+  "welcome": {
+    "subtitle": "২০+ ভাষায় সহজে অফলাইন অনুবাদ করুন",
+    "get_started": "শুরু করুন"
+  },
+  "languageSettings": {
+    "title": "ভাষার সেটিংস",
+    "languages": {
+      "en": "ইংরেজি",
+      "ro": "রোমানিয়ান"
+    }
+  },
+  "offlineSettings": {
+    "title": "অফলাইন সেটিংস",
+    "description": "আপনার অফলাইন পছন্দ এবং ডাউনলোড পরিচালনা করুন।"
+  },
+  "privacyPolicy": {
+    "title": "গোপনীয়তা নীতি",
+    "description": "আমরা আপনার ডেটা কীভাবে পরিচালনা করি তা বুঝতে আমাদের গোপনীয়তা নীতি পড়ুন।"
+  },
+  "clearAppData": {
+    "title": "অ্যাপ ডেটা মুছুন",
+    "description": "সকল অ্যাপ ডেটা, পছন্দসমূহ এবং সংরক্ষিত আইটেম সহ মুছুন।",
+    "button": "ডেটা মুছুন"
+  },
+  "feedback": {
+    "title": "মতামত",
+    "description": "আমরা আপনার মতামতকে মূল্য দিই। আমাদের উন্নতির জন্য পরামর্শ দিন।"
+  },
+  "helpCenter": {
+    "title": "সহায়তা কেন্দ্র",
+    "description": "প্রায়শই জিজ্ঞাসিত প্রশ্নের উত্তর পান বা সহায়তার জন্য সমর্থনের সাথে যোগাযোগ করুন।"
+  }
+}

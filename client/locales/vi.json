@@ -1,0 +1,59 @@
+{
+  "common": {
+    "appName": "RushTranslate"
+  },
+  "home": {},
+  "settings": {
+    "dark_mode": "Chế độ Tối",
+    "language": "Cài đặt Ngôn ngữ",
+    "offline": "Cài đặt Ngoại tuyến",
+    "privacy": "Chính sách Bảo mật",
+    "clear_data": "Xóa Dữ liệu Ứng dụng",
+    "feedback": "Phản hồi",
+    "help": "Trung tâm Trợ giúp",
+    "app_version": "Phiên bản Ứng dụng: {{version}}"
+  },
+  "saved": {
+    "title": "Đã Lưu",
+    "travel_essentials": "Vật Dụng Cần Thiết Khi Du Lịch",
+    "business_essentials": "Vật Dụng Cần Thiết Kinh Doanh",
+    "medical_care_essentials": "Vật Dụng Cần Thiết Y Tế",
+    "size_mb": "{{size}} MB",
+    "download": "Tải xuống",
+    "remove": "Xóa",
+    "downloading": "Đang tải xuống...",
+    "clear_all_downloads": "Xóa tất cả Tải xuống"
+  },
+  "welcome": {
+    "subtitle": "Dịch ngoại tuyến dễ dàng với hơn 20 ngôn ngữ",
+    "get_started": "Bắt đầu"
+  },
+  "languageSettings": {
+    "title": "Cài đặt Ngôn ngữ",
+    "languages": {
+      "en": "Tiếng Anh",
+      "ro": "Tiếng Romania"
+    }
+  },
+  "offlineSettings": {
+    "title": "Cài đặt Ngoại tuyến",
+    "description": "Quản lý tùy chọn và tải xuống ngoại tuyến của bạn."
+  },
+  "privacyPolicy": {
+    "title": "Chính sách Bảo mật",
+    "description": "Đọc chính sách bảo mật của chúng tôi để hiểu cách chúng tôi xử lý dữ liệu của bạn."
+  },
+  "clearAppData": {
+    "title": "Xóa Dữ liệu Ứng dụng",
+    "description": "Xóa tất cả dữ liệu ứng dụng, bao gồm cả tùy chọn và các mục đã lưu.",
+    "button": "Xóa Dữ liệu"
+  },
+  "feedback": {
+    "title": "Phản hồi",
+    "description": "Chúng tôi đánh giá cao phản hồi của bạn. Vui lòng cho chúng tôi biết cách cải thiện."
+  },
+  "helpCenter": {
+    "title": "Trung tâm Trợ giúp",
+    "description": "Tìm câu trả lời cho các câu hỏi thường gặp hoặc liên hệ với hỗ trợ để được trợ giúp."
+  }
+}

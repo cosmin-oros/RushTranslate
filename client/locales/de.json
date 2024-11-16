@@ -1,0 +1,59 @@
+{
+  "common": {
+    "appName": "RushTranslate"
+  },
+  "home": {},
+  "settings": {
+    "dark_mode": "Dunkelmodus",
+    "language": "Spracheinstellungen",
+    "offline": "Offline-Einstellungen",
+    "privacy": "Datenschutzrichtlinie",
+    "clear_data": "App-Daten löschen",
+    "feedback": "Feedback",
+    "help": "Hilfezentrum",
+    "app_version": "App-Version: {{version}}"
+  },
+  "saved": {
+    "title": "Gespeichert",
+    "travel_essentials": "Reiseutensilien",
+    "business_essentials": "Geschäftsgrundlagen",
+    "medical_care_essentials": "Medizinische Versorgung",
+    "size_mb": "{{size}} MB",
+    "download": "Herunterladen",
+    "remove": "Entfernen",
+    "downloading": "Wird heruntergeladen...",
+    "clear_all_downloads": "Alle Downloads löschen"
+  },
+  "welcome": {
+    "subtitle": "Übersetzen Sie offline mühelos in über 20 Sprachen",
+    "get_started": "Loslegen"
+  },
+  "languageSettings": {
+    "title": "Spracheinstellungen",
+    "languages": {
+      "en": "Englisch",
+      "ro": "Rumänisch"
+    }
+  },
+  "offlineSettings": {
+    "title": "Offline-Einstellungen",
+    "description": "Verwalten Sie Ihre Offline-Einstellungen und Downloads."
+  },
+  "privacyPolicy": {
+    "title": "Datenschutzrichtlinie",
+    "description": "Lesen Sie unsere Datenschutzrichtlinie, um zu verstehen, wie wir mit Ihren Daten umgehen."
+  },
+  "clearAppData": {
+    "title": "App-Daten löschen",
+    "description": "Löschen Sie alle App-Daten, einschließlich Einstellungen und gespeicherter Elemente.",
+    "button": "Daten löschen"
+  },
+  "feedback": {
+    "title": "Feedback",
+    "description": "Wir schätzen Ihr Feedback. Bitte lassen Sie uns wissen, wie wir uns verbessern können."
+  },
+  "helpCenter": {
+    "title": "Hilfezentrum",
+    "description": "Finden Sie Antworten auf häufig gestellte Fragen oder kontaktieren Sie den Support für Hilfe."
+  }
+}
