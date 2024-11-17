@@ -1,7 +1,14 @@
 import React, { useCallback, useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Container, Content, Title } from '../../tamagui.config';
-import { View, TouchableOpacity } from 'react-native';
+import {
+  View,
+  TouchableOpacity,
+  Modal,
+  Text,
+  StyleSheet,
+  FlatList,
+} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Card from './components/Card';
@@ -13,6 +20,7 @@ import { useFocusEffect, useNavigation } from '@react-navigation/core';
 import { Routes } from '../../routes/routes';
 import { RouteParams } from '../../routes/types';
 import ScanSection from './components/ScanSection';
+import { languages } from '../../constants'; 
 
 type RoutePropType = StackNavigationProp<RouteParams, Routes.Home>;
 
@@ -21,14 +29,16 @@ const HomeScreen: React.FC = () => {
   const [selectedBottomTab, setSelectedBottomTab] = useState('Home');
   const [selectedAction, setSelectedAction] = useState('Write');
   const [textInputValue, setTextInputValue] = useState('');
-  const [languages, setLanguages] = useState({ top: 'EN', bottom: 'FR' });
+  const [languagesState, setLanguagesState] = useState({ top: 'EN', bottom: 'FR' });
+  const [isLanguageModalVisible, setLanguageModalVisible] = useState(false);
+  const [languageModalPosition, setLanguageModalPosition] = useState<'top' | 'bottom'>('top');
   const navigation = useNavigation<RoutePropType>();
 
   useEffect(() => {
     const loadLanguages = async () => {
-      const appLanguage = (await AsyncStorage.getItem('appLanguage') || 'EN').toUpperCase();
-      const targetLanguage = (await AsyncStorage.getItem('targetLanguage') || 'FR').toUpperCase();
-      setLanguages({ top: appLanguage, bottom: targetLanguage });
+      const appLanguage = (await AsyncStorage.getItem('appLanguage') || 'en').toUpperCase();
+      const targetLanguage = (await AsyncStorage.getItem('targetLanguage') || 'fr').toUpperCase();
+      setLanguagesState({ top: appLanguage, bottom: targetLanguage });
     };
 
     loadLanguages();
@@ -62,15 +72,30 @@ const HomeScreen: React.FC = () => {
   };
 
   const handleLanguageSwitch = () => {
-    setLanguages((prev) => ({
+    setLanguagesState((prev) => ({
       top: prev.bottom,
       bottom: prev.top,
     }));
   };
 
+  const handleLanguageCardPress = (position: 'top' | 'bottom') => {
+    setLanguageModalPosition(position);
+    setLanguageModalVisible(true);
+  };
+
+  const selectLanguage = (code: string) => {
+    setLanguagesState((prev) => ({
+      ...prev,
+      [languageModalPosition]: code.toUpperCase(),
+    }));
+    setLanguageModalVisible(false);
+  };
+
   return (
     <Container>
-      <Title style={{ textAlign: 'center', fontSize: 32, marginTop: '15%' }}>{t('common.appName')}</Title>
+      <Title style={{ textAlign: 'center', fontSize: 32, marginTop: '15%' }}>
+        {t('common.appName')}
+      </Title>
       <Content
         contentContainerStyle={{
           flexGrow: 1,
@@ -85,10 +110,11 @@ const HomeScreen: React.FC = () => {
           {selectedAction === 'Write' ? (
             <>
               <Card
-                title={languages.top}
+                title={languagesState.top}
                 placeholder={t('home.type_text_here')}
                 textInputValue={textInputValue}
                 setTextInputValue={setTextInputValue}
+                onLanguagePress={() => handleLanguageCardPress('top')}
               />
 
               {/* Language Switch Icon */}
@@ -97,19 +123,17 @@ const HomeScreen: React.FC = () => {
               </TouchableOpacity>
 
               <Card
-                title={languages.bottom}
+                title={languagesState.bottom}
                 placeholder={t('home.type_text_here')}
                 textInputValue={textInputValue}
                 setTextInputValue={setTextInputValue}
+                onLanguagePress={() => handleLanguageCardPress('bottom')}
               />
             </>
           ) : selectedAction === 'Record' ? (
             <RecordSection onTextGenerated={(text) => setTextInputValue(text)} />
           ) : (
-            <ScanSection
-              languages={languages}
-              handleLanguageSwitch={handleLanguageSwitch}
-            />
+            <ScanSection languages={languagesState} handleLanguageSwitch={handleLanguageSwitch} />
           )}
 
           {/* Action Buttons */}
@@ -134,8 +158,73 @@ const HomeScreen: React.FC = () => {
       </Content>
 
       <BottomTabNavigation selectedTab={selectedBottomTab} onTabPress={handleBottomTabPress} />
+
+      {/* Language Selection Modal */}
+      <Modal visible={isLanguageModalVisible} transparent animationType="slide">
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <FlatList
+              data={languages}
+              keyExtractor={(item) => item.code}
+              renderItem={({ item }) => (
+                <TouchableOpacity
+                  style={styles.languageOption}
+                  onPress={() => selectLanguage(item.code)}
+                >
+                  <Icon name={item.icon} size={24} color="#007F7F" style={{ marginRight: 10 }} />
+                  <Text style={styles.languageText}>{item.label}</Text>
+                </TouchableOpacity>
+              )}
+            />
+            <TouchableOpacity
+              style={styles.closeButton}
+              onPress={() => setLanguageModalVisible(false)}
+            >
+              <Text style={styles.closeButtonText}>Close</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </Container>
   );
 };
+
+const styles = StyleSheet.create({
+  modalContainer: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalContent: {
+    backgroundColor: '#FFF',
+    padding: 20,
+    borderRadius: 10,
+    width: '80%',
+    alignItems: 'center',
+    maxHeight: '50%',
+  },
+  languageOption: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: '#DDD',
+    width: '100%',
+  },
+  languageText: {
+    fontSize: 18,
+  },
+  closeButton: {
+    marginTop: 20,
+    padding: 10,
+    backgroundColor: '#007F7F',
+    borderRadius: 5,
+  },
+  closeButtonText: {
+    color: '#FFF',
+    fontSize: 16,
+  },
+});
 
 export default HomeScreen;
