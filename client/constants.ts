@@ -20,3 +20,26 @@ export const languages = [
   { code: "sv", label: "Swedish", icon: "flag-outline" },
   { code: "th", label: "Thai", icon: "flag-outline" },
 ];
+
+export const countryToLanguageMap: { [key: string]: string } = {
+  US: "en",
+  RO: "ro",
+  FR: "fr",
+  DE: "de",
+  IT: "it",
+  ES: "es",
+  PT: "pt",
+  RU: "ru",
+  CN: "zh",
+  JP: "ja",
+  AE: "ar",
+  IN: "hi",
+  BD: "bn",
+  KR: "ko",
+  TR: "tr",
+  VN: "vi",
+  NL: "nl",
+  PL: "pl",
+  SE: "sv",
+  TH: "th",
+};

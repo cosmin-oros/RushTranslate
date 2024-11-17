@@ -6,6 +6,8 @@ import { useNavigation } from '@react-navigation/native';
 import { Routes } from '../../routes/routes';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteParams } from '../../routes/types';
+import i18n from '../../i18n';
+import { countryToLanguageMap } from '../../constants';
 
 type RoutePropType = StackNavigationProp<RouteParams, Routes.LanguageSelection>;
 
@@ -31,29 +33,6 @@ const languages = [
   { code: 'sv', label: 'Swedish', flag: '🇸🇪' },
   { code: 'th', label: 'Thai', flag: '🇹🇭' },
 ];
-
-const countryToLanguageMap: { [key: string]: string } = {
-  US: 'en',
-  RO: 'ro',
-  FR: 'fr',
-  DE: 'de',
-  IT: 'it',
-  ES: 'es',
-  PT: 'pt',
-  RU: 'ru',
-  CN: 'zh',
-  JP: 'ja',
-  AE: 'ar',
-  IN: 'hi',
-  BD: 'bn',
-  KR: 'ko',
-  TR: 'tr',
-  VN: 'vi',
-  NL: 'nl',
-  PL: 'pl',
-  SE: 'sv',
-  TH: 'th',
-};
 
 const LanguageSelectionScreen: React.FC = () => {
   const navigation = useNavigation<RoutePropType>();
@@ -97,6 +76,7 @@ const LanguageSelectionScreen: React.FC = () => {
     if (appLanguage && targetLanguage) {
       await AsyncStorage.setItem('appLanguage', appLanguage);
       await AsyncStorage.setItem('targetLanguage', targetLanguage);
+      i18n.changeLanguage(appLanguage || 'en');
 
       navigation.navigate(Routes.Home); // Navigate to Home after saving languages
     }

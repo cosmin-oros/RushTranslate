@@ -1,25 +1,36 @@
 import React, { useState } from 'react';
-import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
+import {
+  View,
+  TouchableOpacity,
+  Text,
+  StyleSheet,
+  Modal,
+  FlatList,
+} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import * as ImagePicker from 'expo-image-picker';
+import { languages as availableLanguages } from '../../../constants';
 
 type ScanSectionProps = {
   languages: { top: string; bottom: string };
   handleLanguageSwitch: () => void;
 };
 
-const ScanSection: React.FC<ScanSectionProps> = ({ languages, handleLanguageSwitch }) => {
+const ScanSection: React.FC<ScanSectionProps> = ({
+  languages,
+  handleLanguageSwitch,
+}) => {
   const [scannedText, setScannedText] = useState<string | null>(null);
+  const [isLanguageModalVisible, setLanguageModalVisible] = useState(false);
+  const [languageModalPosition, setLanguageModalPosition] = useState<'top' | 'bottom'>('top');
 
   const handleOpenCamera = async () => {
-    // Request camera permissions
     const { status } = await ImagePicker.requestCameraPermissionsAsync();
     if (status !== 'granted') {
       alert('Camera access is needed to scan text');
       return;
     }
 
-    // Launch the camera to take a picture
     const result = await ImagePicker.launchCameraAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: false,
@@ -27,11 +38,22 @@ const ScanSection: React.FC<ScanSectionProps> = ({ languages, handleLanguageSwit
     });
 
     if (!result.canceled) {
-      // Simulate OCR processing with mock text
-      const mockScannedText = "This is a simulated transcription of the scanned image.";
+      const mockScannedText = 'This is a simulated transcription of the scanned image.';
       setScannedText(mockScannedText);
+    }
+  };
 
-      // In a real implementation, send result.uri to an OCR API to get actual text.
+  const handleLanguageCardPress = (position: 'top' | 'bottom') => {
+    setLanguageModalPosition(position);
+    setLanguageModalVisible(true);
+  };
+
+  const selectLanguage = (code: string) => {
+    setLanguageModalVisible(false);
+    if (languageModalPosition === 'top') {
+      languages.top = code.toUpperCase();
+    } else {
+      languages.bottom = code.toUpperCase();
     }
   };
 
@@ -39,11 +61,21 @@ const ScanSection: React.FC<ScanSectionProps> = ({ languages, handleLanguageSwit
     <View style={styles.container}>
       {/* Language Switch Row */}
       <View style={styles.languageRow}>
-        <Text style={styles.languageText}>{languages.top}</Text>
+        <TouchableOpacity
+          onPress={() => handleLanguageCardPress('top')}
+          style={styles.languageTextContainer}
+        >
+          <Text style={styles.languageText}>{languages.top}</Text>
+        </TouchableOpacity>
         <TouchableOpacity onPress={handleLanguageSwitch} style={styles.switchIcon}>
           <Icon name="swap-horizontal" size={24} color="#007F7F" />
         </TouchableOpacity>
-        <Text style={styles.languageText}>{languages.bottom}</Text>
+        <TouchableOpacity
+          onPress={() => handleLanguageCardPress('bottom')}
+          style={styles.languageTextContainer}
+        >
+          <Text style={styles.languageText}>{languages.bottom}</Text>
+        </TouchableOpacity>
       </View>
 
       {/* Scanned Text Display */}
@@ -57,6 +89,33 @@ const ScanSection: React.FC<ScanSectionProps> = ({ languages, handleLanguageSwit
       <TouchableOpacity style={styles.cameraButton} onPress={handleOpenCamera}>
         <Icon name="camera" size={30} color="#FFF" />
       </TouchableOpacity>
+
+      {/* Language Selection Modal */}
+      <Modal visible={isLanguageModalVisible} transparent animationType="slide">
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <FlatList
+              data={availableLanguages} // Use the array of languages here
+              keyExtractor={(item) => item.code}
+              renderItem={({ item }) => (
+                <TouchableOpacity
+                  style={styles.languageOption}
+                  onPress={() => selectLanguage(item.code)}
+                >
+                  <Icon name={item.icon} size={24} color="#007F7F" style={{ marginRight: 10 }} />
+                  <Text style={styles.languageOptionText}>{item.label}</Text>
+                </TouchableOpacity>
+              )}
+            />
+            <TouchableOpacity
+              style={styles.closeButton}
+              onPress={() => setLanguageModalVisible(false)}
+            >
+              <Text style={styles.closeButtonText}>Close</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 };
@@ -73,14 +132,16 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginBottom: 16,
   },
+  languageTextContainer: {
+    backgroundColor: '#000',
+    borderRadius: 16,
+    paddingVertical: 6,
+    paddingHorizontal: 12,
+  },
   languageText: {
     fontSize: 16,
     fontWeight: '600',
     color: '#FFF',
-    backgroundColor: '#000',
-    paddingVertical: 6,
-    paddingHorizontal: 12,
-    borderRadius: 16,
   },
   switchIcon: {
     marginHorizontal: 16,
@@ -117,6 +178,45 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.3,
     shadowRadius: 3,
+  },
+  modalContainer: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalContent: {
+    backgroundColor: '#FFF',
+    padding: 20,
+    borderRadius: 10,
+    width: '80%',
+    maxHeight: '50%',
+    alignItems: 'center',
+  },
+  languageOption: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: '#EEE',
+    width: '100%',
+  },
+  languageOptionText: {
+    fontSize: 16,
+    color: '#333',
+  },
+  closeButton: {
+    marginTop: 20,
+    padding: 12,
+    backgroundColor: '#007F7F',
+    borderRadius: 8,
+    width: '60%',
+    alignItems: 'center',
+  },
+  closeButtonText: {
+    color: '#FFF',
+    fontSize: 16,
+    fontWeight: '600',
   },
 });
 
