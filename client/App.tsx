@@ -28,12 +28,14 @@ export default function App() {
 
         const appLanguage = await AsyncStorage.getItem('appLanguage');
         const targetLanguage = await AsyncStorage.getItem('targetLanguage');
+        i18n.changeLanguage(appLanguage || 'en');
 
-        if (appLanguage && targetLanguage) {
-          setInitialRoute(Routes.Home); // Skip onboarding if languages are set
-        } else {
-          setInitialRoute(Routes.LanguageSelection);
-        }
+        // if (appLanguage && targetLanguage) {
+        //   setInitialRoute(Routes.Home); // Skip onboarding if languages are set
+        // } else {
+        //   setInitialRoute(Routes.Welcome);
+        // }
+        setInitialRoute(Routes.Welcome);
       } catch (e) {
         console.warn(e);
       } finally {
