@@ -1,18 +1,97 @@
-import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Image } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Image, Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as Location from 'expo-location';
 import { useNavigation } from '@react-navigation/native';
 import { Routes } from '../../routes/routes';
-import { languages } from '../../constants';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteParams } from '../../routes/types';
 
 type RoutePropType = StackNavigationProp<RouteParams, Routes.LanguageSelection>;
 
+const languages = [
+  { code: 'en', label: 'English', flag: '🇺🇸' },
+  { code: 'ro', label: 'Romanian', flag: '🇷🇴' },
+  { code: 'fr', label: 'French', flag: '🇫🇷' },
+  { code: 'de', label: 'German', flag: '🇩🇪' },
+  { code: 'it', label: 'Italian', flag: '🇮🇹' },
+  { code: 'es', label: 'Spanish', flag: '🇪🇸' },
+  { code: 'pt', label: 'Portuguese', flag: '🇵🇹' },
+  { code: 'ru', label: 'Russian', flag: '🇷🇺' },
+  { code: 'zh', label: 'Chinese', flag: '🇨🇳' },
+  { code: 'ja', label: 'Japanese', flag: '🇯🇵' },
+  { code: 'ar', label: 'Arabic', flag: '🇦🇪' },
+  { code: 'hi', label: 'Hindi', flag: '🇮🇳' },
+  { code: 'bn', label: 'Bengali', flag: '🇧🇩' },
+  { code: 'ko', label: 'Korean', flag: '🇰🇷' },
+  { code: 'tr', label: 'Turkish', flag: '🇹🇷' },
+  { code: 'vi', label: 'Vietnamese', flag: '🇻🇳' },
+  { code: 'nl', label: 'Dutch', flag: '🇳🇱' },
+  { code: 'pl', label: 'Polish', flag: '🇵🇱' },
+  { code: 'sv', label: 'Swedish', flag: '🇸🇪' },
+  { code: 'th', label: 'Thai', flag: '🇹🇭' },
+];
+
+const countryToLanguageMap: { [key: string]: string } = {
+  US: 'en',
+  RO: 'ro',
+  FR: 'fr',
+  DE: 'de',
+  IT: 'it',
+  ES: 'es',
+  PT: 'pt',
+  RU: 'ru',
+  CN: 'zh',
+  JP: 'ja',
+  AE: 'ar',
+  IN: 'hi',
+  BD: 'bn',
+  KR: 'ko',
+  TR: 'tr',
+  VN: 'vi',
+  NL: 'nl',
+  PL: 'pl',
+  SE: 'sv',
+  TH: 'th',
+};
+
 const LanguageSelectionScreen: React.FC = () => {
   const navigation = useNavigation<RoutePropType>();
   const [appLanguage, setAppLanguage] = useState<string | null>(null);
   const [targetLanguage, setTargetLanguage] = useState<string | null>(null);
+  const [suggestedLanguage, setSuggestedLanguage] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchLocationAndSuggestLanguage = async () => {
+      try {
+        const { status } = await Location.requestForegroundPermissionsAsync();
+        if (status !== 'granted') {
+          Alert.alert(
+            'Permission Required',
+            'Location permission is required to suggest a translation language.'
+          );
+          return;
+        }
+
+        const location = await Location.getCurrentPositionAsync();
+        const geocode = await Location.reverseGeocodeAsync({
+          latitude: location.coords.latitude,
+          longitude: location.coords.longitude,
+        });
+
+        const countryCode = geocode[0]?.isoCountryCode || '';
+        const suggestedLang = countryToLanguageMap[countryCode];
+        if (suggestedLang) {
+          setSuggestedLanguage(suggestedLang);
+          setTargetLanguage(suggestedLang); // Automatically select the suggested language
+        }
+      } catch (error) {
+        console.error('Error fetching location:', error);
+      }
+    };
+
+    fetchLocationAndSuggestLanguage();
+  }, []);
 
   const handleSaveLanguages = async () => {
     if (appLanguage && targetLanguage) {
@@ -50,6 +129,7 @@ const LanguageSelectionScreen: React.FC = () => {
             ]}
             onPress={() => setAppLanguage(lang.code)}
           >
+            <Text style={styles.languageFlag}>{lang.flag}</Text>
             <Text style={styles.languageText}>{lang.label}</Text>
           </TouchableOpacity>
         ))}
@@ -57,6 +137,11 @@ const LanguageSelectionScreen: React.FC = () => {
 
       {/* Target Language Section */}
       <Text style={styles.sectionTitle}>Select Translation Language</Text>
+      {suggestedLanguage && (
+        <Text style={styles.suggestionText}>
+          Suggested Language: {languages.find((l) => l.code === suggestedLanguage)?.label}
+        </Text>
+      )}
       <ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}
@@ -71,6 +156,7 @@ const LanguageSelectionScreen: React.FC = () => {
             ]}
             onPress={() => setTargetLanguage(lang.code)}
           >
+            <Text style={styles.languageFlag}>{lang.flag}</Text>
             <Text style={styles.languageText}>{lang.label}</Text>
           </TouchableOpacity>
         ))}
@@ -143,9 +229,19 @@ const styles = StyleSheet.create({
     shadowColor: '#007F7F',
     shadowOpacity: 0.4,
   },
+  languageFlag: {
+    fontSize: 40,
+    marginBottom: 5,
+  },
   languageText: {
     fontSize: 16,
     color: '#333',
+    fontWeight: '500',
+  },
+  suggestionText: {
+    fontSize: 16,
+    color: '#007F7F',
+    marginVertical: 5,
     fontWeight: '500',
   },
   saveButton: {
