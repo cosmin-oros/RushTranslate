@@ -1,5 +1,14 @@
 import React, { useCallback, useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Animated } from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  ScrollView,
+  Animated,
+  Modal,
+  FlatList,
+} from 'react-native';
 import { Container, Content, Title } from '../../tamagui.config';
 import BottomTabNavigation from '../home/components/BottomTabNavigation';
 import { Routes } from '../../routes/routes';
@@ -9,6 +18,7 @@ import { useTranslation } from 'react-i18next';
 import { RouteParams } from '../../routes/types';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { fetchLanguageTranslations } from '../../services/translationService';
+import { languages as availableLanguages } from '../../constants';
 
 type RoutePropType = StackNavigationProp<RouteParams, Routes.Saved>;
 
@@ -17,7 +27,15 @@ const SavedScreen: React.FC = () => {
   const navigation = useNavigation<RoutePropType>();
 
   const [downloads, setDownloads] = useState<
-    { id: number; title: string; size: string; status: string; progress: Animated.Value | number; icon: string; language: string; }[]
+    {
+      id: number;
+      title: string;
+      size: string;
+      status: string;
+      progress: Animated.Value | number;
+      icon: string;
+      language: string;
+    }[]
   >([
     { id: 1, title: 'saved.travel_essentials', size: '90 MB', status: 'Download', progress: 0, icon: 'airplane-outline', language: 'FR' },
     { id: 2, title: 'saved.business_essentials', size: '73 MB', status: 'Download', progress: 0, icon: 'briefcase-outline', language: 'FR' },
@@ -25,6 +43,9 @@ const SavedScreen: React.FC = () => {
   ]);
 
   const [selectedTab, setSelectedTab] = useState('Saved');
+  const [isLanguageModalVisible, setLanguageModalVisible] = useState(false);
+
+  const [selectedLanguage, setSelectedLanguage] = useState('FR'); // Default language for all cards
 
   useFocusEffect(
     useCallback(() => {
@@ -54,38 +75,38 @@ const SavedScreen: React.FC = () => {
     if (!downloadItem) return;
 
     const { title } = downloadItem;
-    const language = "fr"; // ! mock replace later, also make a dropdown to select a different language or detect using location etc
+    const language = selectedLanguage;
 
     try {
       setDownloads((prevDownloads) =>
         prevDownloads.map((item) =>
-          item.id === id ? { ...item, status: "In Progress", progress: new Animated.Value(0) } : item
+          item.id === id ? { ...item, status: 'In Progress', progress: new Animated.Value(0) } : item
         )
       );
 
-      const translations = await fetchLanguageTranslations(title.replace("saved.", ""), language);
+      const translations = await fetchLanguageTranslations(title.replace('saved.', ''), language);
 
-      console.log("Fetched Translations:", translations); 
+      console.log('Fetched Translations:', translations);
 
       const progressAnimation = downloads.find((item) => item.id === id)?.progress as Animated.Value;
 
       Animated.timing(progressAnimation, {
         toValue: 100,
-        duration: 5000, 
+        duration: 5000,
         useNativeDriver: false,
       }).start(() => {
         setDownloads((prevDownloads) =>
           prevDownloads.map((item) =>
-            item.id === id ? { ...item, status: "Remove", progress: 100 } : item
+            item.id === id ? { ...item, status: 'Remove', progress: 100 } : item
           )
         );
       });
     } catch (error) {
-      console.error("Error downloading translations:", error);
+      console.error('Error downloading translations:', error);
 
       setDownloads((prevDownloads) =>
         prevDownloads.map((item) =>
-          item.id === id ? { ...item, status: "Download", progress: 0 } : item
+          item.id === id ? { ...item, status: 'Download', progress: 0 } : item
         )
       );
     }
@@ -105,10 +126,26 @@ const SavedScreen: React.FC = () => {
     );
   };
 
+  const handleLanguageSelect = (code: string) => {
+    setSelectedLanguage(code.toUpperCase());
+    setLanguageModalVisible(false);
+
+    setDownloads((prevDownloads) =>
+      prevDownloads.map((item) => ({ ...item, language: code.toUpperCase() }))
+    );
+  };
+
   return (
     <Container style={{ backgroundColor: '#EAF4F4' }}>
       <Title style={styles.title}>{t('common.appName')}</Title>
       <Content>
+        <TouchableOpacity
+          style={styles.languageSelector}
+          onPress={() => setLanguageModalVisible(true)}
+        >
+          <Icon name="language-outline" size={20} color="#007F7F" />
+          <Text style={styles.languageSelectorText}>Language: {selectedLanguage}</Text>
+        </TouchableOpacity>
         <ScrollView contentContainerStyle={styles.content}>
           {downloads.map((item) => (
             <View key={item.id} style={styles.card}>
@@ -140,11 +177,15 @@ const SavedScreen: React.FC = () => {
                   <Animated.View
                     style={[
                       styles.progressBar,
-                      { width: item.progress instanceof Animated.Value ? item.progress.interpolate({
-                          inputRange: [0, 100],
-                          outputRange: ["0%", "100%"],
-                        }) : `${item.progress}%`
-                      }
+                      {
+                        width:
+                          item.progress instanceof Animated.Value
+                            ? item.progress.interpolate({
+                                inputRange: [0, 100],
+                                outputRange: ['0%', '100%'],
+                              })
+                            : `${item.progress}%`,
+                      },
                     ]}
                   />
                 </View>
@@ -165,6 +206,33 @@ const SavedScreen: React.FC = () => {
       </Content>
 
       <BottomTabNavigation selectedTab={selectedTab} onTabPress={handleBottomTabPress} />
+
+      {/* Language Selection Modal */}
+      <Modal visible={isLanguageModalVisible} transparent animationType="slide">
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <FlatList
+              data={availableLanguages}
+              keyExtractor={(item) => item.code}
+              renderItem={({ item }) => (
+                <TouchableOpacity
+                  style={styles.languageOption}
+                  onPress={() => handleLanguageSelect(item.code)}
+                >
+                  <Icon name={item.icon} size={24} color="#007F7F" style={{ marginRight: 10 }} />
+                  <Text style={styles.languageOptionText}>{item.code.toUpperCase()}</Text>
+                </TouchableOpacity>
+              )}
+            />
+            <TouchableOpacity
+              style={styles.closeButton}
+              onPress={() => setLanguageModalVisible(false)}
+            >
+              <Text style={styles.closeButtonText}>Close</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </Container>
   );
 };
@@ -184,9 +252,9 @@ const styles = StyleSheet.create({
   card: {
     backgroundColor: '#FFFFFF',
     borderRadius: 12,
-    paddingTop: 16, 
+    paddingTop: 16,
     paddingHorizontal: 20,
-    paddingBottom: 25, 
+    paddingBottom: 25,
     marginVertical: 12,
     width: '95%',
     shadowColor: '#000',
@@ -198,7 +266,7 @@ const styles = StyleSheet.create({
   iconAndText: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 32, 
+    marginBottom: 32,
   },
   icon: {
     marginRight: 12,
@@ -236,7 +304,7 @@ const styles = StyleSheet.create({
   },
   progressSection: {
     marginBottom: 20,
-    alignItems: 'center', 
+    alignItems: 'center',
   },
   progressText: {
     fontSize: 12,
@@ -247,7 +315,7 @@ const styles = StyleSheet.create({
     height: 6,
     backgroundColor: '#007F7F',
     borderRadius: 4,
-    width: '90%', 
+    width: '90%',
   },
   languageContainer: {
     flexDirection: 'row',
@@ -277,6 +345,56 @@ const styles = StyleSheet.create({
     color: '#FFF',
     fontWeight: '700',
     fontSize: 16,
+  },
+  languageSelector: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 16,
+    paddingHorizontal: 16,
+  },
+  languageSelectorText: {
+    fontSize: 16,
+    color: '#007F7F',
+    marginLeft: 8,
+  },
+  modalContainer: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalContent: {
+    backgroundColor: '#FFF',
+    padding: 20,
+    borderRadius: 10,
+    width: '80%',
+    maxHeight: '50%',
+    alignItems: 'center',
+  },
+  languageOption: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: '#EEE',
+    width: '100%',
+  },
+  languageOptionText: {
+    fontSize: 16,
+    color: '#333',
+  },
+  closeButton: {
+    marginTop: 20,
+    padding: 12,
+    backgroundColor: '#007F7F',
+    borderRadius: 8,
+    width: '60%',
+    alignItems: 'center',
+  },
+  closeButtonText: {
+    color: '#FFF',
+    fontSize: 16,
+    fontWeight: '600',
   },
 });
 

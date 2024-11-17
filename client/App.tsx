@@ -30,6 +30,7 @@ export default function App() {
         const targetLanguage = await AsyncStorage.getItem('targetLanguage');
         i18n.changeLanguage(appLanguage || 'en');
 
+        // ! uncomment this and comment the next line after demo this is for persistence
         // if (appLanguage && targetLanguage) {
         //   setInitialRoute(Routes.Home); // Skip onboarding if languages are set
         // } else {
