@@ -1,14 +1,25 @@
 import React, { useState } from 'react';
-import { View, TouchableOpacity, Text, ActivityIndicator, StyleSheet } from 'react-native';
+import {
+  View,
+  TouchableOpacity,
+  Text,
+  ActivityIndicator,
+  StyleSheet,
+  Modal,
+  FlatList,
+} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { Audio } from 'expo-av';
+import { languages as availableLanguages } from '../../../constants';
 
 const RecordSection: React.FC<{ onTextGenerated: (text: string) => void }> = ({ onTextGenerated }) => {
   const [recording, setRecording] = useState<Audio.Recording | null>(null);
   const [isRecording, setIsRecording] = useState(false);
   const [transcribedText, setTranscribedText] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [languages, setLanguages] = useState({ top: 'English', bottom: 'French' });
+  const [languages, setLanguages] = useState({ top: 'EN', bottom: 'FR' }); // Use abbreviations here
+  const [isLanguageModalVisible, setLanguageModalVisible] = useState(false);
+  const [languageModalPosition, setLanguageModalPosition] = useState<'top' | 'bottom'>('top');
 
   const startRecording = async () => {
     try {
@@ -27,7 +38,7 @@ const RecordSection: React.FC<{ onTextGenerated: (text: string) => void }> = ({ 
     try {
       await recording?.stopAndUnloadAsync();
       const uri = recording?.getURI();
-      
+
       if (uri) {
         const transcription = await transcribeAudio(uri); // Mock transcription
         setTranscribedText(transcription);
@@ -46,7 +57,7 @@ const RecordSection: React.FC<{ onTextGenerated: (text: string) => void }> = ({ 
   const transcribeAudio = async (uri: string) => {
     return new Promise<string>((resolve) => {
       setTimeout(() => {
-        const mockTranscription = "This is a simulated transcription of your recording.";
+        const mockTranscription = 'This is a simulated transcription of your recording.';
         resolve(mockTranscription);
       }, 2000); // 2-second delay to simulate processing time
     });
@@ -59,15 +70,39 @@ const RecordSection: React.FC<{ onTextGenerated: (text: string) => void }> = ({ 
     }));
   };
 
+  const handleLanguageCardPress = (position: 'top' | 'bottom') => {
+    setLanguageModalPosition(position);
+    setLanguageModalVisible(true);
+  };
+
+  const selectLanguage = (code: string) => {
+    setLanguageModalVisible(false);
+    if (languageModalPosition === 'top') {
+      setLanguages((prev) => ({ ...prev, top: code.toUpperCase() }));
+    } else {
+      setLanguages((prev) => ({ ...prev, bottom: code.toUpperCase() }));
+    }
+  };
+
   return (
     <View style={styles.container}>
       {/* Language Switch Row */}
       <View style={styles.languageRow}>
-        <Text style={styles.languageText}>{languages.top}</Text>
+        <TouchableOpacity
+          onPress={() => handleLanguageCardPress('top')}
+          style={styles.languageTextContainer}
+        >
+          <Text style={styles.languageText}>{languages.top}</Text>
+        </TouchableOpacity>
         <TouchableOpacity onPress={handleLanguageSwitch} style={styles.switchIcon}>
           <Icon name="swap-horizontal" size={24} color="#007F7F" />
         </TouchableOpacity>
-        <Text style={styles.languageText}>{languages.bottom}</Text>
+        <TouchableOpacity
+          onPress={() => handleLanguageCardPress('bottom')}
+          style={styles.languageTextContainer}
+        >
+          <Text style={styles.languageText}>{languages.bottom}</Text>
+        </TouchableOpacity>
       </View>
 
       {/* Recording Card */}
@@ -86,6 +121,33 @@ const RecordSection: React.FC<{ onTextGenerated: (text: string) => void }> = ({ 
       >
         <Icon name={isRecording ? 'stop' : 'mic'} size={30} color="#FFF" />
       </TouchableOpacity>
+
+      {/* Language Selection Modal */}
+      <Modal visible={isLanguageModalVisible} transparent animationType="slide">
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <FlatList
+              data={availableLanguages}
+              keyExtractor={(item) => item.code}
+              renderItem={({ item }) => (
+                <TouchableOpacity
+                  style={styles.languageOption}
+                  onPress={() => selectLanguage(item.code)}
+                >
+                  <Icon name={item.icon} size={24} color="#007F7F" style={{ marginRight: 10 }} />
+                  <Text style={styles.languageOptionText}>{item.code.toUpperCase()}</Text> {/* Abbreviation */}
+                </TouchableOpacity>
+              )}
+            />
+            <TouchableOpacity
+              style={styles.closeButton}
+              onPress={() => setLanguageModalVisible(false)}
+            >
+              <Text style={styles.closeButtonText}>Close</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 };
@@ -102,14 +164,16 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginBottom: 16,
   },
+  languageTextContainer: {
+    backgroundColor: '#000',
+    borderRadius: 16,
+    paddingVertical: 6,
+    paddingHorizontal: 12,
+  },
   languageText: {
     fontSize: 16,
     fontWeight: '600',
     color: '#FFF',
-    backgroundColor: '#000', 
-    paddingVertical: 6,
-    paddingHorizontal: 12,
-    borderRadius: 16,
   },
   switchIcon: {
     marginHorizontal: 16,
@@ -149,6 +213,45 @@ const styles = StyleSheet.create({
   },
   recording: {
     backgroundColor: '#FF5A5F',
+  },
+  modalContainer: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalContent: {
+    backgroundColor: '#FFF',
+    padding: 20,
+    borderRadius: 10,
+    width: '80%',
+    maxHeight: '50%',
+    alignItems: 'center',
+  },
+  languageOption: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: '#EEE',
+    width: '100%',
+  },
+  languageOptionText: {
+    fontSize: 16,
+    color: '#333',
+  },
+  closeButton: {
+    marginTop: 20,
+    padding: 12,
+    backgroundColor: '#007F7F',
+    borderRadius: 8,
+    width: '60%',
+    alignItems: 'center',
+  },
+  closeButtonText: {
+    color: '#FFF',
+    fontSize: 16,
+    fontWeight: '600',
   },
 });
 
