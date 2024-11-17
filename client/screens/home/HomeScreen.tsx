@@ -25,14 +25,14 @@ const HomeScreen: React.FC = () => {
   const navigation = useNavigation<RoutePropType>();
 
   useEffect(() => {
-  const loadLanguages = async () => {
-    const appLanguage = (await AsyncStorage.getItem('appLanguage') || 'EN').toUpperCase();
-    const targetLanguage = (await AsyncStorage.getItem('targetLanguage') || 'FR').toUpperCase();
-    setLanguages({ top: appLanguage, bottom: targetLanguage });
-  };
+    const loadLanguages = async () => {
+      const appLanguage = (await AsyncStorage.getItem('appLanguage') || 'EN').toUpperCase();
+      const targetLanguage = (await AsyncStorage.getItem('targetLanguage') || 'FR').toUpperCase();
+      setLanguages({ top: appLanguage, bottom: targetLanguage });
+    };
 
-  loadLanguages();
-}, []);
+    loadLanguages();
+  }, []);
 
   const handleBottomTabPress = (tab: string) => {
     setSelectedBottomTab(tab);

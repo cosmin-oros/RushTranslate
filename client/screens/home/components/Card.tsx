@@ -1,12 +1,12 @@
 import React from 'react';
-import { View, Text, TextInput, StyleSheet } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import { CardProps } from '../../../types';
 
-const Card: React.FC<CardProps> = ({ title, textInputValue, setTextInputValue, placeholder }) => (
+const Card: React.FC<CardProps> = ({ title, textInputValue, setTextInputValue, placeholder, onLanguagePress }) => (
   <View style={styles.card}>
-    <View style={styles.languageContainer}>
+    <TouchableOpacity onPress={onLanguagePress} style={styles.languageContainer}>
       <Text style={styles.languageText}>{title}</Text>
-    </View>
+    </TouchableOpacity>
     <TextInput
       style={styles.textInput}
       placeholder={placeholder}
@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
     elevation: 4,
   },
   languageContainer: {
-    backgroundColor: '#000',
+    backgroundColor: '#007F7F',
     borderRadius: 12,
     paddingVertical: 4,
     paddingHorizontal: 12,

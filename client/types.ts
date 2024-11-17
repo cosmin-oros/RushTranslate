@@ -14,6 +14,7 @@ export interface CardProps {
   textInputValue: string;
   setTextInputValue: (value: string) => void;
   placeholder: string;
+  onLanguagePress: () => void;
 }
 
 export type ScanSectionProps = {
