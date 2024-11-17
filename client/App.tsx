@@ -4,8 +4,10 @@ import { TamaguiProvider } from 'tamagui';
 import tamaguiConfig from './tamagui.config';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import HomeScreen from './screens/home/HomeScreen';
 import WelcomeScreen from './screens/welcome/WelcomeScreen';
+import LanguageSelectionScreen from './screens/language_selection/LanguageSelectionScreen';
 import SettingsScreen from './screens/settings/SettingsScreen';
 import PackageDetailsScreen from './screens/package_details/PackageDetailsScreen';
 import SavedScreen from './screens/saved/SavedScreen';
@@ -17,16 +19,24 @@ import 'intl-pluralrules';
 const Stack = createNativeStackNavigator();
 
 export default function App() {
-  const [isAppReady, setAppReady] = useState(false);
+  const [initialRoute, setInitialRoute] = useState<string | null>(null);
 
   useEffect(() => {
     const prepareApp = async () => {
       try {
         await i18n.init();
+
+        const appLanguage = await AsyncStorage.getItem('appLanguage');
+        const targetLanguage = await AsyncStorage.getItem('targetLanguage');
+
+        if (appLanguage && targetLanguage) {
+          setInitialRoute(Routes.Home); // Skip onboarding if languages are set
+        } else {
+          setInitialRoute(Routes.LanguageSelection);
+        }
       } catch (e) {
         console.warn(e);
       } finally {
-        setAppReady(true);
         await SplashScreen.hideAsync();
       }
     };
@@ -34,17 +44,18 @@ export default function App() {
     prepareApp();
   }, []);
 
-  if (!isAppReady) {
-    return null; 
+  if (!initialRoute) {
+    return null; // Wait for initial route determination
   }
 
   return (
     <TamaguiProvider config={tamaguiConfig}>
       <NavigationContainer>
         <StatusBar style="auto" />
-        <Stack.Navigator initialRouteName={Routes.Welcome}>
+        <Stack.Navigator initialRouteName={initialRoute}>
           <Stack.Screen name={Routes.Home} component={HomeScreen} options={{ headerShown: false }} />
           <Stack.Screen name={Routes.Welcome} component={WelcomeScreen} options={{ headerShown: false }} />
+          <Stack.Screen name={Routes.LanguageSelection} component={LanguageSelectionScreen} options={{ headerShown: false }} />
           <Stack.Screen name={Routes.Settings} component={SettingsScreen} options={{ headerShown: false }} />
           <Stack.Screen name={Routes.PackageDetails} component={PackageDetailsScreen} options={{ headerShown: false }} />
           <Stack.Screen name={Routes.Saved} component={SavedScreen} options={{ headerShown: false }} />

@@ -6,4 +6,5 @@ export type RouteParams = {
   [Routes.Saved]: undefined;
   [Routes.Settings]: undefined;
   [Routes.Welcome]: undefined;
+  [Routes.LanguageSelection]: undefined;
 }
