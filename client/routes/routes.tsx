@@ -4,4 +4,5 @@ export enum Routes {
     Saved = 'Saved',
     PackageDetails = 'PackageDetails',
     Settings = 'Settings',
+    LanguageSelection = 'LanguageSelection',
 }

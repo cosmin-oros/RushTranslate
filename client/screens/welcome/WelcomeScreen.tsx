@@ -14,8 +14,7 @@ const WelcomeScreen: React.FC = () => {
   const navigation = useNavigation<RoutePropType>();
 
   const onGetStartedPress = () => {
-    console.log('daaa')
-    navigation.navigate(Routes.Home);
+    navigation.navigate(Routes.LanguageSelection);
   };
 
   return (
