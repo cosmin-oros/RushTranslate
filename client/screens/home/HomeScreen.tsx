@@ -1,7 +1,8 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Container, Content, Title } from '../../tamagui.config';
 import { View, TouchableOpacity } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Card from './components/Card';
 import ActionButton from './components/ActionButton';
@@ -20,8 +21,18 @@ const HomeScreen: React.FC = () => {
   const [selectedBottomTab, setSelectedBottomTab] = useState('Home');
   const [selectedAction, setSelectedAction] = useState('Write');
   const [textInputValue, setTextInputValue] = useState('');
-  const [languages, setLanguages] = useState({ top: 'English', bottom: 'French' });
+  const [languages, setLanguages] = useState({ top: 'EN', bottom: 'FR' });
   const navigation = useNavigation<RoutePropType>();
+
+  useEffect(() => {
+  const loadLanguages = async () => {
+    const appLanguage = (await AsyncStorage.getItem('appLanguage') || 'EN').toUpperCase();
+    const targetLanguage = (await AsyncStorage.getItem('targetLanguage') || 'FR').toUpperCase();
+    setLanguages({ top: appLanguage, bottom: targetLanguage });
+  };
+
+  loadLanguages();
+}, []);
 
   const handleBottomTabPress = (tab: string) => {
     setSelectedBottomTab(tab);
@@ -60,23 +71,40 @@ const HomeScreen: React.FC = () => {
   return (
     <Container>
       <Title style={{ textAlign: 'center', fontSize: 32, marginTop: '15%' }}>{t('common.appName')}</Title>
-      <Content contentContainerStyle={{ flexGrow: 1, paddingBottom: '7%', paddingHorizontal: 16, justifyContent: 'center', alignItems: 'center' }}>
-        
+      <Content
+        contentContainerStyle={{
+          flexGrow: 1,
+          paddingBottom: '7%',
+          paddingHorizontal: 16,
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
         {/* Main Content Area */}
         <View style={{ gap: 16, width: '100%', alignItems: 'center' }}>
           {selectedAction === 'Write' ? (
             <>
-              <Card title={languages.top} placeholder={t('home.type_text_here')} textInputValue={textInputValue} setTextInputValue={setTextInputValue} />
-              
+              <Card
+                title={languages.top}
+                placeholder={t('home.type_text_here')}
+                textInputValue={textInputValue}
+                setTextInputValue={setTextInputValue}
+              />
+
               {/* Language Switch Icon */}
               <TouchableOpacity onPress={handleLanguageSwitch} style={{ marginVertical: 16 }}>
                 <Icon name="swap-vertical" size={30} color="#007F7F" />
               </TouchableOpacity>
-              
-              <Card title={languages.bottom} placeholder={t('home.type_text_here')} textInputValue={textInputValue} setTextInputValue={setTextInputValue} />
+
+              <Card
+                title={languages.bottom}
+                placeholder={t('home.type_text_here')}
+                textInputValue={textInputValue}
+                setTextInputValue={setTextInputValue}
+              />
             </>
           ) : selectedAction === 'Record' ? (
-            <RecordSection onTextGenerated={(text) => setTextInputValue(text)} /> 
+            <RecordSection onTextGenerated={(text) => setTextInputValue(text)} />
           ) : (
             <ScanSection
               languages={languages}
