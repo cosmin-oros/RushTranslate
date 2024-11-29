@@ -4,7 +4,7 @@ const {
   getPackages,
   getPackageTranslations,
   getLanguageTranslations,
-  addOrUpdateTranslations
+  addOrUpdateTranslations,
 } = require("../controllers/translationController");
 
 // List all packages

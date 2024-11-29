@@ -1,16 +1,19 @@
 import axios from "axios";
 import { ENDPOINTS } from "../endpoints";
-import { Translation, LanguageTranslations } from "../types";
+import { Translation } from "../types";
 
 export const fetchLanguageTranslations = async (
   packageName: string,
   language: string
 ): Promise<Translation[]> => {
   try {
-    const response = await axios.get<LanguageTranslations>(
+    // Fetch translations for the specified package and language
+    const response = await axios.get<Translation[]>(
       ENDPOINTS.getLanguageTranslations(packageName, language)
     );
-    return response.data.translations;
+
+    // Return the list of translations directly
+    return response.data; // Data is already an array of translations
   } catch (error: unknown) {
     if (axios.isAxiosError(error)) {
       console.error(
