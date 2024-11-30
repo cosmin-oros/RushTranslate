@@ -17,7 +17,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { useTranslation } from 'react-i18next';
 import { RouteParams } from '../../routes/types';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { fetchLanguageTranslations } from '../../services/translationService';
+import { areTranslationsSaved, clearAllTranslationsFromStorage, fetchLanguageTranslations, removeTranslationsFromStorage, saveTranslationsToStorage } from '../../services/translationService';
 import { languages as availableLanguages } from '../../constants';
 
 type RoutePropType = StackNavigationProp<RouteParams, Routes.Saved>;
@@ -37,20 +37,44 @@ const SavedScreen: React.FC = () => {
       language: string;
     }[]
   >([
-    { id: 1, title: 'saved.travel_essentials', size: '90 MB', status: 'Download', progress: 0, icon: 'airplane-outline', language: 'FR' },
-    { id: 2, title: 'saved.business_essentials', size: '73 MB', status: 'Download', progress: 0, icon: 'briefcase-outline', language: 'FR' },
-    { id: 3, title: 'saved.medical_care_essentials', size: '61 MB', status: 'Download', progress: 0, icon: 'medkit-outline', language: 'FR' },
+    {
+      id: 1,
+      title: 'saved.travel_essentials',
+      size: '90 MB',
+      status: 'Download',
+      progress: 0,
+      icon: 'airplane-outline',
+      language: 'FR',
+    },
+    {
+      id: 2,
+      title: 'saved.business_essentials',
+      size: '73 MB',
+      status: 'Download',
+      progress: 0,
+      icon: 'briefcase-outline',
+      language: 'FR',
+    },
+    {
+      id: 3,
+      title: 'saved.medical_care_essentials',
+      size: '61 MB',
+      status: 'Download',
+      progress: 0,
+      icon: 'medkit-outline',
+      language: 'FR',
+    },
   ]);
 
   const [selectedTab, setSelectedTab] = useState('Saved');
   const [isLanguageModalVisible, setLanguageModalVisible] = useState(false);
-
   const [selectedLanguage, setSelectedLanguage] = useState('FR'); // Default language for all cards
 
   useFocusEffect(
     useCallback(() => {
       setSelectedTab('Saved');
-    }, [])
+      loadSavedDownloads();
+    }, [selectedLanguage])
   );
 
   const handleBottomTabPress = (tab: string) => {
@@ -78,32 +102,63 @@ const SavedScreen: React.FC = () => {
     const language = selectedLanguage;
 
     try {
+      // Set download progress to "In Progress"
       setDownloads((prevDownloads) =>
         prevDownloads.map((item) =>
-          item.id === id ? { ...item, status: 'In Progress', progress: new Animated.Value(0) } : item
+          item.id === id
+            ? { ...item, status: 'In Progress', progress: new Animated.Value(0) }
+            : item
         )
       );
 
-      const translations = await fetchLanguageTranslations(title.replace('saved.', ''), language);
+      // Check if translations are already saved locally
+      const isSaved = await areTranslationsSaved(title.replace('saved.', ''), language);
+      if (isSaved) {
+        console.log(`Translations for ${title} (${language}) are already saved locally.`);
+        setDownloads((prevDownloads) =>
+          prevDownloads.map((item) =>
+            item.id === id ? { ...item, status: 'Remove', progress: 100 } : item
+          )
+        );
+        return;
+      }
+
+      // Fetch translations from the API
+      const translations = await fetchLanguageTranslations(
+        title.replace('saved.', ''),
+        language
+      );
+
+      // Save translations locally
+      await saveTranslationsToStorage(title.replace('saved.', ''), language, translations);
 
       console.log('Fetched Translations:', translations);
 
-      const progressAnimation = downloads.find((item) => item.id === id)?.progress as Animated.Value;
-
+      // Start a static time animation for download progress
+      const progressAnimation = new Animated.Value(0);
       Animated.timing(progressAnimation, {
         toValue: 100,
-        duration: 5000,
+        duration: 3000, // Static duration for the download animation
         useNativeDriver: false,
       }).start(() => {
+        // After animation is complete, set progress to 100% and update status
         setDownloads((prevDownloads) =>
           prevDownloads.map((item) =>
             item.id === id ? { ...item, status: 'Remove', progress: 100 } : item
           )
         );
       });
+
+      // Update the progress animation in state
+      setDownloads((prevDownloads) =>
+        prevDownloads.map((item) =>
+          item.id === id ? { ...item, progress: progressAnimation } : item
+        )
+      );
     } catch (error) {
       console.error('Error downloading translations:', error);
 
+      // Reset download progress on failure
       setDownloads((prevDownloads) =>
         prevDownloads.map((item) =>
           item.id === id ? { ...item, status: 'Download', progress: 0 } : item
@@ -112,27 +167,70 @@ const SavedScreen: React.FC = () => {
     }
   };
 
-  const handleRemove = (id: number) => {
-    setDownloads((prevDownloads) =>
-      prevDownloads.map((item) =>
-        item.id === id ? { ...item, status: 'Download', progress: 0 } : item
-      )
-    );
+  const handleRemove = async (id: number) => {
+    const downloadItem = downloads.find((item) => item.id === id);
+    if (!downloadItem) return;
+
+    const { title } = downloadItem;
+    const language = selectedLanguage;
+
+    try {
+      // Remove translations from local storage
+      await removeTranslationsFromStorage(title.replace('saved.', ''), language);
+
+      // Reset download status
+      setDownloads((prevDownloads) =>
+        prevDownloads.map((item) =>
+          item.id === id ? { ...item, status: 'Download', progress: 0 } : item
+        )
+      );
+    } catch (error) {
+      console.error('Error removing translations:', error);
+    }
   };
 
-  const handleClearAllDownloads = () => {
-    setDownloads((prevDownloads) =>
-      prevDownloads.map((item) => ({ ...item, status: 'Download', progress: 0 }))
-    );
+  const handleClearAllDownloads = async () => {
+    try {
+      // Clear all translations from local storage
+      await clearAllTranslationsFromStorage();
+
+      // Reset all download statuses
+      setDownloads((prevDownloads) =>
+        prevDownloads.map((item) => ({ ...item, status: 'Download', progress: 0 }))
+      );
+    } catch (error) {
+      console.error('Error clearing all downloads:', error);
+    }
   };
 
   const handleLanguageSelect = (code: string) => {
     setSelectedLanguage(code.toUpperCase());
     setLanguageModalVisible(false);
 
+    // Update the language for all download items
     setDownloads((prevDownloads) =>
       prevDownloads.map((item) => ({ ...item, language: code.toUpperCase() }))
     );
+  };
+
+  const loadSavedDownloads = async () => {
+    try {
+      // Load saved translations from local storage
+      const updatedDownloads = await Promise.all(
+        downloads.map(async (item) => {
+          const isSaved = await areTranslationsSaved(
+            item.title.replace('saved.', ''),
+            selectedLanguage
+          );
+          return isSaved
+            ? { ...item, status: 'Remove', progress: 100 }
+            : { ...item, status: 'Download', progress: 0 };
+        })
+      );
+      setDownloads(updatedDownloads);
+    } catch (error) {
+      console.error('Error loading saved downloads:', error);
+    }
   };
 
   return (
