@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -19,6 +19,7 @@ import { RouteParams } from '../../routes/types';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { areTranslationsSaved, clearAllTranslationsFromStorage, fetchLanguageTranslations, removeTranslationsFromStorage, saveTranslationsToStorage } from '../../services/translationService';
 import { languages as availableLanguages } from '../../constants';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 type RoutePropType = StackNavigationProp<RouteParams, Routes.Saved>;
 
@@ -70,10 +71,34 @@ const SavedScreen: React.FC = () => {
   const [isLanguageModalVisible, setLanguageModalVisible] = useState(false);
   const [selectedLanguage, setSelectedLanguage] = useState('FR'); // Default language for all cards
 
+  useEffect(() => {
+    const fetchLanguages = async () => {
+      const savedDownloads = await AsyncStorage.getItem('downloads');
+      const parsedDownloads = savedDownloads ? JSON.parse(savedDownloads) : null;
+
+      if (parsedDownloads) {
+        setDownloads(parsedDownloads); // Load saved languages and statuses
+      } else {
+        const targetLanguage = (await AsyncStorage.getItem('targetLanguage')) || 'FR';
+        setSelectedLanguage(targetLanguage.toUpperCase());
+
+        // Initialize downloads with the default target language
+        setDownloads((prevDownloads) =>
+          prevDownloads.map((item) => ({
+            ...item,
+            language: targetLanguage.toUpperCase(),
+          }))
+        );
+      }
+    };
+
+    fetchLanguages();
+  }, []);
+
   useFocusEffect(
     useCallback(() => {
       setSelectedTab('Saved');
-      loadSavedDownloads();
+      if (selectedLanguage) loadSavedDownloads();
     }, [selectedLanguage])
   );
 
