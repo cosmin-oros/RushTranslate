@@ -1,9 +1,15 @@
 require("dotenv").config();
 const express = require("express");
 const bodyParser = require("body-parser");
+const cors = require("cors"); // Import the CORS middleware
 const translationRoutes = require("./routes/translationRoutes");
 
 const app = express();
+
+// Enable CORS for all routes
+app.use(cors());
+
+// Parse incoming JSON requests
 app.use(bodyParser.json());
 
 // Supabase is initialized in translationControllers

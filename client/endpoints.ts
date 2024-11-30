@@ -1,4 +1,4 @@
-export const API_BASE_URL = "http://localhost:5000/api/translations";
+import { API_BASE_URL } from "@env";
 
 export const ENDPOINTS = {
   getPackages: `${API_BASE_URL}/packages`, // List all available translation packages
