@@ -20,7 +20,8 @@ import { useFocusEffect, useNavigation } from '@react-navigation/core';
 import { Routes } from '../../routes/routes';
 import { RouteParams } from '../../routes/types';
 import ScanSection from './components/ScanSection';
-import { languages } from '../../constants'; 
+import { languages } from '../../constants';
+import { translateText } from '../../services/translationService'; // Use translateText function
 
 type RoutePropType = StackNavigationProp<RouteParams, Routes.Home>;
 
@@ -28,7 +29,8 @@ const HomeScreen: React.FC = () => {
   const { t } = useTranslation();
   const [selectedBottomTab, setSelectedBottomTab] = useState('Home');
   const [selectedAction, setSelectedAction] = useState('Write');
-  const [textInputValue, setTextInputValue] = useState('');
+  const [topText, setTopText] = useState(''); // Top text input value
+  const [bottomText, setBottomText] = useState(''); // Bottom text input value
   const [languagesState, setLanguagesState] = useState({ top: 'EN', bottom: 'FR' });
   const [isLanguageModalVisible, setLanguageModalVisible] = useState(false);
   const [languageModalPosition, setLanguageModalPosition] = useState<'top' | 'bottom'>('top');
@@ -43,6 +45,36 @@ const HomeScreen: React.FC = () => {
 
     loadLanguages();
   }, []);
+
+  // Handle typing in the top input and translate to the bottom input
+  const handleTopTextChange = async (text: string) => {
+    setTopText(text);
+    if (text.trim()) {
+      const translatedText = await translateText(
+        languagesState.top,
+        languagesState.bottom,
+        text
+      );
+      setBottomText(translatedText);
+    } else {
+      setBottomText('');
+    }
+  };
+
+  // Handle typing in the bottom input and translate to the top input
+  const handleBottomTextChange = async (text: string) => {
+    setBottomText(text);
+    if (text.trim()) {
+      const translatedText = await translateText(
+        languagesState.bottom,
+        languagesState.top,
+        text
+      );
+      setTopText(translatedText);
+    } else {
+      setTopText('');
+    }
+  };
 
   const handleBottomTabPress = (tab: string) => {
     setSelectedBottomTab(tab);
@@ -76,6 +108,9 @@ const HomeScreen: React.FC = () => {
       top: prev.bottom,
       bottom: prev.top,
     }));
+    // Swap the values between the inputs when languages are switched
+    setTopText(bottomText);
+    setBottomText(topText);
   };
 
   const handleLanguageCardPress = (position: 'top' | 'bottom') => {
@@ -105,19 +140,17 @@ const HomeScreen: React.FC = () => {
           alignItems: 'center',
         }}
       >
-        {/* Main Content Area */}
         <View style={{ gap: 16, width: '100%', alignItems: 'center' }}>
           {selectedAction === 'Write' ? (
             <>
               <Card
                 title={languagesState.top}
                 placeholder={t('home.type_text_here')}
-                textInputValue={textInputValue}
-                setTextInputValue={setTextInputValue}
+                textInputValue={topText}
+                setTextInputValue={handleTopTextChange} // Use top handler
                 onLanguagePress={() => handleLanguageCardPress('top')}
               />
 
-              {/* Language Switch Icon */}
               <TouchableOpacity onPress={handleLanguageSwitch} style={{ marginVertical: 16 }}>
                 <Icon name="swap-vertical" size={30} color="#007F7F" />
               </TouchableOpacity>
@@ -125,18 +158,17 @@ const HomeScreen: React.FC = () => {
               <Card
                 title={languagesState.bottom}
                 placeholder={t('home.type_text_here')}
-                textInputValue={textInputValue}
-                setTextInputValue={setTextInputValue}
+                textInputValue={bottomText}
+                setTextInputValue={handleBottomTextChange} // Use bottom handler
                 onLanguagePress={() => handleLanguageCardPress('bottom')}
               />
             </>
           ) : selectedAction === 'Record' ? (
-            <RecordSection onTextGenerated={(text) => setTextInputValue(text)} />
+            <RecordSection onTextGenerated={(text) => setTopText(text)} />
           ) : (
             <ScanSection languages={languagesState} handleLanguageSwitch={handleLanguageSwitch} />
           )}
 
-          {/* Action Buttons */}
           <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginVertical: 16 }}>
             <ActionButton
               label="Write"
@@ -159,7 +191,6 @@ const HomeScreen: React.FC = () => {
 
       <BottomTabNavigation selectedTab={selectedBottomTab} onTabPress={handleBottomTabPress} />
 
-      {/* Language Selection Modal */}
       <Modal visible={isLanguageModalVisible} transparent animationType="slide">
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>

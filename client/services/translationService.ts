@@ -100,3 +100,70 @@ export const clearAllTranslationsFromStorage = async (): Promise<void> => {
     console.error("Error clearing all translations from storage:", error);
   }
 };
+
+/**
+ * Translates a given text from one language to another using translations from all available packages.
+ *
+ * @param sourceLanguage The language to translate from.
+ * @param targetLanguage The language to translate to.
+ * @param text The text to be translated.
+ * @returns The translated text.
+ */
+export const translateText = async (
+  sourceLanguage: string,
+  targetLanguage: string,
+  text: string
+): Promise<string> => {
+  const availablePackages = [
+    "travel_essentials",
+    "business_essentials",
+    "medical_care_essentials",
+  ];
+
+  try {
+    // Initialize translation maps for source and target languages
+    const sourceToKeyMap: Record<string, string> = {};
+    const keyToTargetMap: Record<string, string> = {};
+
+    // Fetch translations for all available packages
+    for (const packageName of availablePackages) {
+      const sourceTranslations = await fetchLanguageTranslations(
+        packageName,
+        sourceLanguage
+      );
+      const targetTranslations = await fetchLanguageTranslations(
+        packageName,
+        targetLanguage
+      );
+
+      // Populate the translation maps
+      sourceTranslations.forEach((translation) => {
+        sourceToKeyMap[translation.text.toLowerCase()] = translation.key;
+      });
+      targetTranslations.forEach((translation) => {
+        keyToTargetMap[translation.key] = translation.text;
+      });
+    }
+
+    // Split the input text into words
+    const words = text.split(" ");
+
+    // Translate each word
+    const translatedWords = words.map((word) => {
+      const key = sourceToKeyMap[word.toLowerCase()];
+      if (key) {
+        // Translate using the target language map
+        return keyToTargetMap[key] || "?";
+      } else {
+        // Predict or use "?" for unknown words
+        return "?";
+      }
+    });
+
+    // Join the translated words into a single string
+    return translatedWords.join(" ");
+  } catch (error) {
+    console.error("Error translating text:", error);
+    return "Translation failed.";
+  }
+};
