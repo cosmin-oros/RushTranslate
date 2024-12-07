@@ -6,10 +6,13 @@ import {
   StyleSheet,
   Modal,
   FlatList,
+  ActivityIndicator,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import * as ImagePicker from 'expo-image-picker';
+import TextDetector from 'react-native-text-detector'; // OCR Library
 import { languages as availableLanguages } from '../../../constants';
+import { translateText } from '../../../services/translationService';
 
 type ScanSectionProps = {
   languages: { top: string; bottom: string };
@@ -21,8 +24,10 @@ const ScanSection: React.FC<ScanSectionProps> = ({
   handleLanguageSwitch,
 }) => {
   const [scannedText, setScannedText] = useState<string | null>(null);
+  const [translatedText, setTranslatedText] = useState<string | null>(null);
   const [isLanguageModalVisible, setLanguageModalVisible] = useState(false);
   const [languageModalPosition, setLanguageModalPosition] = useState<'top' | 'bottom'>('top');
+  const [isProcessing, setIsProcessing] = useState(false); // For showing a loading indicator during OCR
 
   const handleOpenCamera = async () => {
     const { status } = await ImagePicker.requestCameraPermissionsAsync();
@@ -37,9 +42,36 @@ const ScanSection: React.FC<ScanSectionProps> = ({
       quality: 1,
     });
 
-    if (!result.canceled) {
-      const mockScannedText = 'This is a simulated transcription of the scanned image.';
-      setScannedText(mockScannedText);
+    if (!result.canceled && result.assets) {
+      const imageUri = result.assets[0].uri;
+
+      // Perform OCR on the selected image
+      await performOCR(imageUri);
+    }
+  };
+
+  const performOCR = async (imageUri: string) => {
+    try {
+      setIsProcessing(true);
+
+      // Use react-native-text-detector to recognize text from the image
+      const detectedText = await TextDetector.detectFromUri(imageUri);
+
+      if (detectedText && detectedText.length > 0) {
+        const recognizedText = detectedText.map((item) => item.text).join(' ');
+        setScannedText(recognizedText);
+
+        // Translate the recognized text
+        const translated = await translateText(languages.top, languages.bottom, recognizedText);
+        setTranslatedText(translated);
+      } else {
+        setScannedText('No text detected.');
+      }
+    } catch (error) {
+      console.error('Error performing OCR:', error);
+      alert('Failed to recognize text. Please try again.');
+    } finally {
+      setIsProcessing(false);
     }
   };
 
@@ -78,12 +110,23 @@ const ScanSection: React.FC<ScanSectionProps> = ({
         </TouchableOpacity>
       </View>
 
-      {/* Scanned Text Display */}
-      <View style={styles.card}>
-        <Text style={styles.text}>
-          {scannedText || 'Tap the camera icon to scan text...'}
-        </Text>
-      </View>
+      {/* Scanned and Translated Text Display */}
+      {isProcessing ? (
+        <ActivityIndicator size="large" color="#007F7F" style={{ marginVertical: 20 }} />
+      ) : (
+        <>
+          <View style={styles.card}>
+            <Text style={styles.text}>
+              {scannedText || 'Tap the camera icon to scan text...'}
+            </Text>
+          </View>
+          {translatedText && (
+            <View style={styles.card}>
+              <Text style={styles.text}>{translatedText}</Text>
+            </View>
+          )}
+        </>
+      )}
 
       {/* Camera Button */}
       <TouchableOpacity style={styles.cameraButton} onPress={handleOpenCamera}>
@@ -95,7 +138,7 @@ const ScanSection: React.FC<ScanSectionProps> = ({
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
             <FlatList
-              data={availableLanguages} // Use the array of languages here
+              data={availableLanguages}
               keyExtractor={(item) => item.code}
               renderItem={({ item }) => (
                 <TouchableOpacity

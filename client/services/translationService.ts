@@ -8,17 +8,21 @@ export const fetchLanguageTranslations = async (
   packageName: string,
   language: string
 ): Promise<Translation[]> => {
+  const requestUrl = ENDPOINTS.getLanguageTranslations(
+    packageName,
+    language.toLowerCase()
+  );
+
   try {
-    const response = await axios.get<Translation[]>(
-      ENDPOINTS.getLanguageTranslations(packageName, language.toLowerCase())
-    );
+    console.log("Fetching translations from:", requestUrl);
+    const response = await axios.get<Translation[]>(requestUrl);
+    console.log("Fetched translations successfully:", response.data);
     return response.data;
   } catch (error: unknown) {
     if (axios.isAxiosError(error)) {
-      console.error(
-        "Error fetching translations:",
-        error.response?.data || error.message
-      );
+      console.error("Axios error response:", error.response);
+      console.error("Axios error request:", error.request);
+      console.error("Axios error message:", error.message);
     } else {
       console.error("Unexpected error:", error);
     }
