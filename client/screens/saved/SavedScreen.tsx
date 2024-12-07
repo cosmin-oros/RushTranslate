@@ -17,7 +17,13 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { useTranslation } from 'react-i18next';
 import { RouteParams } from '../../routes/types';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { areTranslationsSaved, clearAllTranslationsFromStorage, fetchLanguageTranslations, removeTranslationsFromStorage, saveTranslationsToStorage } from '../../services/translationService';
+import {
+  areTranslationsSaved,
+  clearAllTranslationsFromStorage,
+  fetchLanguageTranslations,
+  removeTranslationsFromStorage,
+  saveTranslationsToStorage,
+} from '../../services/translationService';
 import { languages as availableLanguages } from '../../constants';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -37,69 +43,72 @@ const SavedScreen: React.FC = () => {
       icon: string;
       language: string;
     }[]
-  >([
-    {
-      id: 1,
-      title: 'saved.travel_essentials',
-      size: '90 MB',
-      status: 'Download',
-      progress: 0,
-      icon: 'airplane-outline',
-      language: 'FR',
-    },
-    {
-      id: 2,
-      title: 'saved.business_essentials',
-      size: '73 MB',
-      status: 'Download',
-      progress: 0,
-      icon: 'briefcase-outline',
-      language: 'FR',
-    },
-    {
-      id: 3,
-      title: 'saved.medical_care_essentials',
-      size: '61 MB',
-      status: 'Download',
-      progress: 0,
-      icon: 'medkit-outline',
-      language: 'FR',
-    },
-  ]);
-
+  >([]);
   const [selectedTab, setSelectedTab] = useState('Saved');
   const [isLanguageModalVisible, setLanguageModalVisible] = useState(false);
   const [selectedLanguage, setSelectedLanguage] = useState('FR'); // Default language for all cards
 
+  const initializeDownloads = useCallback(async (language: string) => {
+    const initialDownloads = [
+      {
+        id: 1,
+        title: 'saved.travel_essentials',
+        size: '90 MB',
+        status: 'Download',
+        progress: 0,
+        icon: 'airplane-outline',
+        language: language.toUpperCase(),
+      },
+      {
+        id: 2,
+        title: 'saved.business_essentials',
+        size: '73 MB',
+        status: 'Download',
+        progress: 0,
+        icon: 'briefcase-outline',
+        language: language.toUpperCase(),
+      },
+      {
+        id: 3,
+        title: 'saved.medical_care_essentials',
+        size: '61 MB',
+        status: 'Download',
+        progress: 0,
+        icon: 'medkit-outline',
+        language: language.toUpperCase(),
+      },
+    ];
+
+    // Check if each translation is saved locally and update the status accordingly
+    const updatedDownloads = await Promise.all(
+      initialDownloads.map(async (item) => {
+        const isSaved = await areTranslationsSaved(item.title.replace('saved.', ''), language);
+        return {
+          ...item,
+          status: isSaved ? 'Remove' : 'Download',
+          progress: isSaved ? 100 : 0,
+        };
+      })
+    );
+
+    setDownloads(updatedDownloads);
+  }, []);
+
   useEffect(() => {
     const fetchLanguages = async () => {
-      const savedDownloads = await AsyncStorage.getItem('downloads');
-      const parsedDownloads = savedDownloads ? JSON.parse(savedDownloads) : null;
-
-      if (parsedDownloads) {
-        setDownloads(parsedDownloads); // Load saved languages and statuses
-      } else {
-        const targetLanguage = (await AsyncStorage.getItem('targetLanguage')) || 'FR';
-        setSelectedLanguage(targetLanguage.toUpperCase());
-
-        // Initialize downloads with the default target language
-        setDownloads((prevDownloads) =>
-          prevDownloads.map((item) => ({
-            ...item,
-            language: targetLanguage.toUpperCase(),
-          }))
-        );
-      }
+      const targetLanguage = (await AsyncStorage.getItem('targetLanguage')) || 'FR';
+      setSelectedLanguage(targetLanguage.toUpperCase());
+      await initializeDownloads(targetLanguage);
     };
 
     fetchLanguages();
-  }, []);
+  }, [initializeDownloads]);
 
   useFocusEffect(
     useCallback(() => {
       setSelectedTab('Saved');
-      if (selectedLanguage) loadSavedDownloads();
-    }, [selectedLanguage])
+      initializeDownloads(selectedLanguage);
+    }, [selectedLanguage, initializeDownloads])
   );
 
   const handleBottomTabPress = (tab: string) => {
@@ -231,31 +240,7 @@ const SavedScreen: React.FC = () => {
   const handleLanguageSelect = (code: string) => {
     setSelectedLanguage(code.toUpperCase());
     setLanguageModalVisible(false);
-
-    // Update the language for all download items
-    setDownloads((prevDownloads) =>
-      prevDownloads.map((item) => ({ ...item, language: code.toUpperCase() }))
-    );
-  };
-
-  const loadSavedDownloads = async () => {
-    try {
-      // Load saved translations from local storage
-      const updatedDownloads = await Promise.all(
-        downloads.map(async (item) => {
-          const isSaved = await areTranslationsSaved(
-            item.title.replace('saved.', ''),
-            selectedLanguage
-          );
-          return isSaved
-            ? { ...item, status: 'Remove', progress: 100 }
-            : { ...item, status: 'Download', progress: 0 };
-        })
-      );
-      setDownloads(updatedDownloads);
-    } catch (error) {
-      console.error('Error loading saved downloads:', error);
-    }
+    initializeDownloads(code); // Reset downloads to the selected language
   };
 
   return (
@@ -314,7 +299,6 @@ const SavedScreen: React.FC = () => {
                 </View>
               )}
 
-              {/* Language Display at Bottom Left */}
               <View style={styles.languageContainer}>
                 <Icon name="language-outline" size={16} color="#007F7F" />
                 <Text style={styles.languageText}>{item.language}</Text>
@@ -330,7 +314,6 @@ const SavedScreen: React.FC = () => {
 
       <BottomTabNavigation selectedTab={selectedTab} onTabPress={handleBottomTabPress} />
 
-      {/* Language Selection Modal */}
       <Modal visible={isLanguageModalVisible} transparent animationType="slide">
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
