@@ -348,4 +348,106 @@ For deployment, you can use Expo's build service to create production-ready buil
     - For Android and iOS, follow Expo's [build documentation](https://docs.expo.dev/build/introduction/) to manage and distribute your builds.
     
 
+# RushTranslate
 
+A React Native application for real-time translation using camera and voice features.
+
+## Camera Features
+
+### Core Functionality
+- Real-time camera preview using `expo-camera`
+- Support for both front and back cameras
+- High-quality photo capture
+- Image gallery integration
+- Permission handling with proper user feedback
+
+### Camera Controls
+- Camera flip functionality (front/back)
+- Capture button with loading state
+- Gallery access button
+- Retake option in preview mode
+
+### Text Recognition
+- Real-time text detection overlay
+- Visual bounding boxes for detected text
+- Green highlighting for detected text regions
+- Support for multiple text regions simultaneously
+
+### User Interface
+- Modern, minimalist design
+- Intuitive button layout
+- Loading indicators during processing
+- Clear visual feedback for user actions
+- Semi-transparent overlay for better text visibility
+- Responsive layout that works across device sizes
+
+### Error Handling
+- Graceful camera mount error handling
+- Permission denial handling with retry option
+- Process state management for stable operation
+- Comprehensive error logging
+
+### Image Processing
+- High-quality image capture
+- Support for image editing from gallery
+- Efficient image processing pipeline
+- Temporary image storage management
+
+### Accessibility
+- Internationalization support via i18n
+- Clear, readable text
+- High contrast UI elements
+- Proper button sizing for easy interaction
+
+### Technical Improvements
+- TypeScript integration for better type safety
+- Modern React hooks usage
+- Efficient state management
+- Clean component architecture
+- Proper memory management
+- Modular service architecture for text recognition
+
+## Getting Started
+
+1. Install dependencies:
+```bash
+npm install
+# or
+yarn install
+```
+
+2. Start the development server:
+```bash
+npm start
+# or
+yarn start
+```
+
+3. Run on your device or simulator:
+```bash
+# For iOS
+npm run ios
+# or
+yarn ios
+
+# For Android
+npm run android
+# or
+yarn android
+```
+
+## Dependencies
+
+- expo-camera: ^15.0.16
+- expo-image-picker: Latest version
+- react-native-vector-icons: Latest version
+- i18next: Latest version
+- Other dependencies as specified in package.json
+
+## Contributing
+
+Feel free to submit issues and enhancement requests.
+
+## License
+
+This project is licensed under the terms specified in the LICENSE file.
