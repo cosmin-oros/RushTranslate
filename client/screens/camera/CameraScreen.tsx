@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { StyleSheet, View, TouchableOpacity, Text, ActivityIndicator, ImageBackground } from 'react-native';
+import { StyleSheet, View, TouchableOpacity, Text, ActivityIndicator, ImageBackground, Dimensions } from 'react-native';
 import { CameraView, CameraType, useCameraPermissions } from 'expo-camera';
 import * as ImagePicker from 'expo-image-picker';
 import { Container, Content, Title } from '../../tamagui.config';
@@ -24,7 +24,7 @@ const CameraScreen: React.FC = () => {
   const [type, setType] = useState<CameraType>('back');
   const [isProcessing, setIsProcessing] = useState(false);
   const [recognizedTexts, setRecognizedTexts] = useState<RecognizedText[]>([]);
-  const [previewVisible, setPreviewVisible] = useState(false);
+  const [isCameraOpen, setIsCameraOpen] = useState(false);
   const [capturedImage, setCapturedImage] = useState<any>(null);
   const [sourceText, setSourceText] = useState('');
   const [translatedText, setTranslatedText] = useState('');
@@ -46,8 +46,8 @@ const CameraScreen: React.FC = () => {
       try {
         setIsProcessing(true);
         const photo = await cameraRef.current.takePictureAsync();
-        setPreviewVisible(true);
         setCapturedImage(photo);
+        setIsCameraOpen(false);
         await processImage(photo.uri);
       } catch (error) {
         console.error('Camera capture error:', error);
@@ -88,13 +88,6 @@ const CameraScreen: React.FC = () => {
     } catch (error) {
       console.error('Process image error:', error);
     }
-  };
-
-  const __retakePicture = () => {
-    setCapturedImage(null);
-    setPreviewVisible(false);
-    setSourceText('');
-    setTranslatedText('');
   };
 
   const handleBottomTabPress = (tab: string) => {
@@ -144,6 +137,64 @@ const CameraScreen: React.FC = () => {
     );
   }
 
+  if (isCameraOpen) {
+    return (
+      <View style={styles.fullScreenCamera}>
+        <CameraView
+          style={StyleSheet.absoluteFill}
+          facing={type}
+          enableTorch={false}
+          onMountError={(error) => console.error('Camera mount error:', error)}
+        >
+          <View style={styles.cameraOverlay}>
+            {recognizedTexts.map((text, index) => (
+              <View
+                key={index}
+                style={[
+                  styles.textOverlay,
+                  {
+                    left: text.bounds.left,
+                    top: text.bounds.top,
+                    width: text.bounds.right - text.bounds.left,
+                    height: text.bounds.bottom - text.bounds.top,
+                  },
+                ]}
+              />
+            ))}
+          </View>
+
+          <View style={styles.cameraControls}>
+            <TouchableOpacity
+              style={styles.iconButton}
+              onPress={() => setType(type === 'back' ? 'front' : 'back')}
+            >
+              <Icon name="flip-camera-ios" size={24} color="white" />
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={[styles.iconButton, styles.captureButton]}
+              onPress={handleCameraCapture}
+              disabled={isProcessing}
+            >
+              {isProcessing ? (
+                <ActivityIndicator size="large" color="white" />
+              ) : (
+                <Icon name="camera" size={36} color="white" />
+              )}
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={styles.iconButton}
+              onPress={() => setIsCameraOpen(false)}
+            >
+              <Icon name="close" size={24} color="white" />
+            </TouchableOpacity>
+          </View>
+        </CameraView>
+      </View>
+    );
+  }
+
   return (
     <Container>
       <Title style={{ textAlign: 'center', fontSize: 32, marginTop: '15%' }}>
@@ -170,72 +221,32 @@ const CameraScreen: React.FC = () => {
           onLanguagePress={() => {}}
         />
 
-        <View style={styles.cameraContainer}>
-          {!previewVisible ? (
-            <CameraView
-              style={styles.camera}
-              facing={type}
-              enableTorch={false}
-              onMountError={(error) => console.error('Camera mount error:', error)}
-            >
-              <View style={styles.overlay}>
-                {recognizedTexts.map((text, index) => (
-                  <View
-                    key={index}
-                    style={[
-                      styles.textOverlay,
-                      {
-                        left: text.bounds.left,
-                        top: text.bounds.top,
-                        width: text.bounds.right - text.bounds.left,
-                        height: text.bounds.bottom - text.bounds.top,
-                      },
-                    ]}
-                  />
-                ))}
-              </View>
+        {capturedImage && (
+          <View style={styles.previewContainer}>
+            <ImageBackground 
+              source={{ uri: capturedImage.uri }} 
+              style={styles.imagePreview}
+              imageStyle={styles.previewImage}
+            />
+          </View>
+        )}
 
-              <View style={styles.buttonContainer}>
-                <TouchableOpacity
-                  style={styles.iconButton}
-                  onPress={() => setType(type === 'back' ? 'front' : 'back')}
-                >
-                  <Icon name="flip-camera-ios" size={24} color="white" />
-                </TouchableOpacity>
+        <View style={styles.mainButtonsContainer}>
+          <TouchableOpacity
+            style={styles.mainButton}
+            onPress={() => setIsCameraOpen(true)}
+          >
+            <Icon name="camera-alt" size={24} color="white" />
+            <Text style={styles.mainButtonText}>{t('Open Camera')}</Text>
+          </TouchableOpacity>
 
-                <TouchableOpacity
-                  style={[styles.iconButton, styles.captureButton]}
-                  onPress={handleCameraCapture}
-                  disabled={isProcessing}
-                >
-                  {isProcessing ? (
-                    <ActivityIndicator size="large" color="white" />
-                  ) : (
-                    <Icon name="camera" size={36} color="white" />
-                  )}
-                </TouchableOpacity>
-
-                <TouchableOpacity
-                  style={styles.iconButton}
-                  onPress={handleGalleryPick}
-                  disabled={isProcessing}
-                >
-                  <Icon name="photo-library" size={24} color="white" />
-                </TouchableOpacity>
-              </View>
-            </CameraView>
-          ) : (
-            <View style={styles.previewContainer}>
-              <ImageBackground source={{ uri: capturedImage.uri }} style={styles.camera}>
-                <View style={styles.buttonContainer}>
-                  <TouchableOpacity onPress={__retakePicture} style={styles.iconButton}>
-                    <Icon name="refresh" size={24} color="white" />
-                    <Text style={styles.buttonText}>{t('Retake')}</Text>
-                  </TouchableOpacity>
-                </View>
-              </ImageBackground>
-            </View>
-          )}
+          <TouchableOpacity
+            style={styles.mainButton}
+            onPress={handleGalleryPick}
+          >
+            <Icon name="photo-library" size={24} color="white" />
+            <Text style={styles.mainButtonText}>{t('Choose from Gallery')}</Text>
+          </TouchableOpacity>
         </View>
 
         <View style={styles.actionButtonsContainer}>
@@ -292,22 +303,11 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     marginVertical: 16,
   },
-  cameraContainer: {
-    aspectRatio: 3/4,
-    width: '100%',
-    borderRadius: 16,
-    overflow: 'hidden',
-    marginTop: 16,
-  },
-  camera: {
+  fullScreenCamera: {
     flex: 1,
+    backgroundColor: 'black',
   },
-  previewContainer: {
-    flex: 1,
-    borderRadius: 16,
-    overflow: 'hidden',
-  },
-  overlay: {
+  cameraOverlay: {
     ...StyleSheet.absoluteFillObject,
   },
   textOverlay: {
@@ -316,14 +316,15 @@ const styles = StyleSheet.create({
     borderColor: '#4CAF50',
     backgroundColor: 'rgba(76, 175, 80, 0.2)',
   },
-  buttonContainer: {
+  cameraControls: {
     position: 'absolute',
-    bottom: 20,
+    bottom: 40,
     left: 0,
     right: 0,
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
+    paddingHorizontal: 20,
   },
   iconButton: {
     width: 50,
@@ -339,10 +340,41 @@ const styles = StyleSheet.create({
     borderRadius: 35,
     backgroundColor: '#007F7F',
   },
-  buttonText: {
+  previewContainer: {
+    width: '100%',
+    height: 200,
+    borderRadius: 16,
+    overflow: 'hidden',
+    marginTop: 16,
+  },
+  imagePreview: {
+    width: '100%',
+    height: '100%',
+  },
+  previewImage: {
+    borderRadius: 16,
+  },
+  mainButtonsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    gap: 12,
+    marginTop: 16,
+  },
+  mainButton: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#007F7F',
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    borderRadius: 12,
+    gap: 8,
+  },
+  mainButtonText: {
     color: 'white',
-    fontSize: 12,
-    marginTop: 4,
+    fontSize: 14,
+    fontWeight: '600',
   },
   actionButtonsContainer: {
     flexDirection: 'row',
@@ -377,6 +409,11 @@ const styles = StyleSheet.create({
   },
   selectedButtonText: {
     color: '#FFFFFF',
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 12,
+    marginTop: 4,
   },
 });
 
