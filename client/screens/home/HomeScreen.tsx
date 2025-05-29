@@ -169,11 +169,21 @@ const HomeScreen: React.FC = () => {
             <ScanSection languages={languagesState} handleLanguageSwitch={handleLanguageSwitch} />
           )}
 
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginVertical: 16 }}>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginVertical: 16, flexWrap: 'wrap', gap: 8 }}>
             <ActionButton
               label="Write"
               isSelected={selectedAction === 'Write'}
               onPress={() => handleActionPress('Write')}
+            />
+            <ActionButton
+              label="Camera"
+              isSelected={selectedAction === 'Camera'}
+              onPress={() => navigation.navigate(Routes.Camera)}
+            />
+            <ActionButton
+              label="Voice"
+              isSelected={selectedAction === 'Voice'}
+              onPress={() => navigation.navigate(Routes.Voice)}
             />
             <ActionButton
               label="Record"

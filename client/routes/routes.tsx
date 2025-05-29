@@ -5,4 +5,6 @@ export enum Routes {
     PackageDetails = 'PackageDetails',
     Settings = 'Settings',
     LanguageSelection = 'LanguageSelection',
+    Camera = 'Camera',
+    Voice = 'Voice',
 }

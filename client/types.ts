@@ -31,3 +31,35 @@ export interface LanguageTranslations {
   language: string;
   translations: Translation[];
 }
+
+export interface RecognizedText {
+  text: string;
+  bounds: {
+    left: number;
+    top: number;
+    right: number;
+    bottom: number;
+  };
+  confidence: number;
+}
+
+export interface VoiceRecognitionResult {
+  text: string;
+  confidence: number;
+  isFinal: boolean;
+}
+
+export interface TranslationResult {
+  originalText: string;
+  translatedText: string;
+  sourceLanguage: string;
+  targetLanguage: string;
+  timestamp: number;
+  confidence?: number;
+  grammarChecks?: Array<{
+    message: string;
+    offset: number;
+    length: number;
+    replacements: string[];
+  }>;
+}

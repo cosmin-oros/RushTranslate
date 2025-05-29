@@ -7,4 +7,6 @@ export type RouteParams = {
   [Routes.Settings]: undefined;
   [Routes.Welcome]: undefined;
   [Routes.LanguageSelection]: undefined;
+  [Routes.Camera]: undefined;
+  [Routes.Voice]: undefined;
 }

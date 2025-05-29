@@ -11,6 +11,8 @@ import LanguageSelectionScreen from './screens/language_selection/LanguageSelect
 import SettingsScreen from './screens/settings/SettingsScreen';
 import PackageDetailsScreen from './screens/package_details/PackageDetailsScreen';
 import SavedScreen from './screens/saved/SavedScreen';
+import CameraScreen from './screens/camera/CameraScreen';
+import VoiceScreen from './screens/voice/VoiceScreen';
 import { Routes } from './routes/routes';
 import * as SplashScreen from 'expo-splash-screen';
 import i18n from './i18n';
@@ -62,6 +64,8 @@ export default function App() {
           <Stack.Screen name={Routes.Settings} component={SettingsScreen} options={{ headerShown: false }} />
           <Stack.Screen name={Routes.PackageDetails} component={PackageDetailsScreen} options={{ headerShown: false }} />
           <Stack.Screen name={Routes.Saved} component={SavedScreen} options={{ headerShown: false }} />
+          <Stack.Screen name={Routes.Camera} component={CameraScreen} options={{ headerShown: false }} />
+          <Stack.Screen name={Routes.Voice} component={VoiceScreen} options={{ headerShown: false }} />
         </Stack.Navigator>
       </NavigationContainer>
     </TamaguiProvider>
