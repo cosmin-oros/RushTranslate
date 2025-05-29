@@ -10,18 +10,15 @@ import {
   FlatList,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import Icon from 'react-native-vector-icons/Ionicons';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 import Card from './components/Card';
-import ActionButton from './components/ActionButton';
 import BottomTabNavigation from './components/BottomTabNavigation';
-import RecordSection from './components/RecordSection';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useFocusEffect, useNavigation } from '@react-navigation/core';
 import { Routes } from '../../routes/routes';
 import { RouteParams } from '../../routes/types';
-import ScanSection from './components/ScanSection';
 import { languages } from '../../constants';
-import { translateText } from '../../services/translationService'; // Use translateText function
+import { translateText } from '../../services/translationService';
 
 type RoutePropType = StackNavigationProp<RouteParams, Routes.Home>;
 
@@ -29,8 +26,8 @@ const HomeScreen: React.FC = () => {
   const { t } = useTranslation();
   const [selectedBottomTab, setSelectedBottomTab] = useState('Home');
   const [selectedAction, setSelectedAction] = useState('Write');
-  const [topText, setTopText] = useState(''); // Top text input value
-  const [bottomText, setBottomText] = useState(''); // Bottom text input value
+  const [topText, setTopText] = useState('');
+  const [bottomText, setBottomText] = useState('');
   const [languagesState, setLanguagesState] = useState({ top: 'EN', bottom: 'FR' });
   const [isLanguageModalVisible, setLanguageModalVisible] = useState(false);
   const [languageModalPosition, setLanguageModalPosition] = useState<'top' | 'bottom'>('top');
@@ -46,7 +43,6 @@ const HomeScreen: React.FC = () => {
     loadLanguages();
   }, []);
 
-  // Handle typing in the top input and translate to the bottom input
   const handleTopTextChange = async (text: string) => {
     setTopText(text);
     if (text.trim()) {
@@ -61,7 +57,6 @@ const HomeScreen: React.FC = () => {
     }
   };
 
-  // Handle typing in the bottom input and translate to the top input
   const handleBottomTextChange = async (text: string) => {
     setBottomText(text);
     if (text.trim()) {
@@ -100,7 +95,13 @@ const HomeScreen: React.FC = () => {
   );
 
   const handleActionPress = (action: string) => {
-    setSelectedAction(action);
+    if (action === 'Camera') {
+      navigation.navigate(Routes.Camera);
+    } else if (action === 'Record') {
+      navigation.navigate(Routes.Voice);
+    } else {
+      setSelectedAction(action);
+    }
   };
 
   const handleLanguageSwitch = () => {
@@ -108,7 +109,6 @@ const HomeScreen: React.FC = () => {
       top: prev.bottom,
       bottom: prev.top,
     }));
-    // Swap the values between the inputs when languages are switched
     setTopText(bottomText);
     setBottomText(topText);
   };
@@ -141,13 +141,13 @@ const HomeScreen: React.FC = () => {
         }}
       >
         <View style={{ gap: 16, width: '100%', alignItems: 'center' }}>
-          {selectedAction === 'Write' ? (
+          {selectedAction === 'Write' && (
             <>
               <Card
                 title={languagesState.top}
                 placeholder={t('home.type_text_here')}
                 textInputValue={topText}
-                setTextInputValue={handleTopTextChange} // Use top handler
+                setTextInputValue={handleTopTextChange}
                 onLanguagePress={() => handleLanguageCardPress('top')}
               />
 
@@ -159,49 +159,84 @@ const HomeScreen: React.FC = () => {
                 title={languagesState.bottom}
                 placeholder={t('home.type_text_here')}
                 textInputValue={bottomText}
-                setTextInputValue={handleBottomTextChange} // Use bottom handler
+                setTextInputValue={handleBottomTextChange}
                 onLanguagePress={() => handleLanguageCardPress('bottom')}
               />
             </>
-          ) : selectedAction === 'Record' ? (
-            <RecordSection onTextGenerated={(text) => setTopText(text)} />
-          ) : (
-            <ScanSection languages={languagesState} handleLanguageSwitch={handleLanguageSwitch} />
           )}
 
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginVertical: 16, flexWrap: 'wrap', gap: 8 }}>
-            <ActionButton
-              label="Write"
-              isSelected={selectedAction === 'Write'}
+          <View style={styles.actionButtonsContainer}>
+            <TouchableOpacity
+              style={[
+                styles.actionButton,
+                selectedAction === 'Write' && styles.selectedButton
+              ]}
               onPress={() => handleActionPress('Write')}
-            />
-            <ActionButton
-              label="Camera"
-              isSelected={selectedAction === 'Camera'}
-              onPress={() => navigation.navigate(Routes.Camera)}
-            />
-            <ActionButton
-              label="Voice"
-              isSelected={selectedAction === 'Voice'}
-              onPress={() => navigation.navigate(Routes.Voice)}
-            />
-            <ActionButton
-              label="Record"
-              isSelected={selectedAction === 'Record'}
+            >
+              <Icon
+                name="edit"
+                size={24}
+                color={selectedAction === 'Write' ? '#FFFFFF' : '#A9A9A9'}
+              />
+              <Text style={[
+                styles.actionButtonText,
+                selectedAction === 'Write' && styles.selectedButtonText
+              ]}>
+                Write
+              </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={[
+                styles.actionButton,
+                selectedAction === 'Camera' && styles.selectedButton
+              ]}
+              onPress={() => handleActionPress('Camera')}
+            >
+              <Icon
+                name="camera-alt"
+                size={24}
+                color={selectedAction === 'Camera' ? '#FFFFFF' : '#A9A9A9'}
+              />
+              <Text style={[
+                styles.actionButtonText,
+                selectedAction === 'Camera' && styles.selectedButtonText
+              ]}>
+                Camera
+              </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={[
+                styles.actionButton,
+                selectedAction === 'Record' && styles.selectedButton
+              ]}
               onPress={() => handleActionPress('Record')}
-            />
-            <ActionButton
-              label="Scan"
-              isSelected={selectedAction === 'Scan'}
-              onPress={() => handleActionPress('Scan')}
-            />
+            >
+              <Icon
+                name="mic"
+                size={24}
+                color={selectedAction === 'Record' ? '#FFFFFF' : '#A9A9A9'}
+              />
+              <Text style={[
+                styles.actionButtonText,
+                selectedAction === 'Record' && styles.selectedButtonText
+              ]}>
+                Record
+              </Text>
+            </TouchableOpacity>
           </View>
         </View>
       </Content>
 
       <BottomTabNavigation selectedTab={selectedBottomTab} onTabPress={handleBottomTabPress} />
 
-      <Modal visible={isLanguageModalVisible} transparent animationType="slide">
+      <Modal
+        visible={isLanguageModalVisible}
+        transparent
+        animationType="fade"
+        onRequestClose={() => setLanguageModalVisible(false)}
+      >
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
             <FlatList
@@ -231,6 +266,40 @@ const HomeScreen: React.FC = () => {
 };
 
 const styles = StyleSheet.create({
+  actionButtonsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: 12,
+    marginTop: 20,
+  },
+  actionButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    borderRadius: 24,
+    backgroundColor: '#E0E0E0',
+    gap: 8,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 2,
+  },
+  selectedButton: {
+    backgroundColor: '#007F7F',
+    shadowOpacity: 0.2,
+    shadowRadius: 6,
+  },
+  actionButtonText: {
+    color: '#A9A9A9',
+    fontWeight: '600',
+    fontSize: 14,
+  },
+  selectedButtonText: {
+    color: '#FFFFFF',
+  },
   modalContainer: {
     flex: 1,
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
@@ -242,19 +311,20 @@ const styles = StyleSheet.create({
     padding: 20,
     borderRadius: 10,
     width: '80%',
-    alignItems: 'center',
     maxHeight: '50%',
+    alignItems: 'center',
   },
   languageOption: {
     flexDirection: 'row',
     alignItems: 'center',
     paddingVertical: 10,
     borderBottomWidth: 1,
-    borderBottomColor: '#DDD',
+    borderBottomColor: '#EEE',
     width: '100%',
   },
   languageText: {
-    fontSize: 18,
+    fontSize: 16,
+    color: '#333',
   },
   closeButton: {
     marginTop: 20,

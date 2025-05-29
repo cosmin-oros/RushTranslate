@@ -2,6 +2,114 @@
 
 ## Wireframe: [wireframe](https://www.figma.com/design/JWIU6D9crToZwDgviTKRd2/RushTranslate?node-id=0-1&node-type=canvas&t=aoCEVEw9KvQHlGIw-0)
 
+## Features
+
+### Camera Translation
+The camera translation feature provides real-time text detection and translation:
+
+#### Core Features
+- Real-time camera preview with text detection
+- Support for both front and back cameras
+- High-quality photo capture with gallery integration
+- Smart permission handling with user feedback
+- Text recognition with visual overlay
+- Instant translation of detected text
+
+#### Camera Controls
+- Intuitive camera flip (front/back)
+- Smart capture button with loading state
+- Gallery access for existing photos
+- Preview mode with retake option
+- Flash control for low-light conditions
+
+#### Text Recognition & Translation
+- Real-time text detection with visual feedback
+- Accurate bounding boxes for detected text
+- Green highlighting for active text regions
+- Multi-region text detection support
+- Instant translation of detected text
+- Support for multiple language pairs
+
+### Voice Translation
+The voice translation feature enables real-time speech translation:
+
+#### Core Features
+- Real-time voice recognition
+- Support for multiple languages
+- High-quality audio recording
+- Clear audio playback of translations
+- Offline voice recognition support
+
+#### Voice Controls
+- One-tap recording start/stop
+- Audio level visualization
+- Language pair quick-switch
+- Playback controls for translations
+- History of recent translations
+
+### Common Features
+
+#### User Interface
+- Modern, minimalist Tamagui design
+- Intuitive navigation and controls
+- Loading indicators with visual feedback
+- Consistent design language
+- Responsive layout for all devices
+- Dark/light theme support
+
+#### Error Handling
+- Graceful permission management
+- Comprehensive error feedback
+- Offline mode handling
+- Process state management
+- Detailed error logging
+
+#### Accessibility
+- Full i18n support
+- High contrast UI elements
+- Clear, readable text
+- Proper touch target sizing
+- Voice feedback support
+- RTL language support
+
+#### Technical Architecture
+- TypeScript for type safety
+- Modern React hooks architecture
+- Efficient state management
+- Clean component structure
+- Proper resource management
+- Modular service architecture
+
+## Project Structure
+
+```plaintext
+RushTranslate/
+├── client/
+│   ├── App.tsx                    # Main entry point
+│   ├── assets/                    # Static assets
+│   ├── src/
+│   │   ├── screens/
+│   │   │   ├── camera/           # Camera translation features
+│   │   │   ├── voice/            # Voice translation features
+│   │   │   ├── home/             # Main dashboard
+│   │   │   ├── settings/         # App settings
+│   │   │   ├── language_selection/# Language selection
+│   │   │   ├── package_details/  # Translation package details
+│   │   │   ├── saved/            # Saved translations
+│   │   │   └── welcome/          # Welcome/onboarding
+│   │   ├── components/           # Shared UI components
+│   │   ├── services/             # Business logic services
+│   │   └── utils/                # Utility functions
+│   ├── routes/                   # Navigation setup
+│   └── types/                    # TypeScript definitions
+│
+└── server/                       # Backend implementation
+    ├── controllers/              # Business logic
+    ├── models/                   # Data models
+    ├── routes/                   # API routes
+    └── services/                 # Backend services
+```
+
 ## Architecture
 
 # **Presentation Layer (UI/UX)**
@@ -239,18 +347,20 @@ RushTranslate/
 │   ├── src/
 │   │   ├── components/            # Reusable UI components
 │   │   ├── screens/               # Application screens
-│   ├── routes/                    # App routing setup
-│   └── README.md                  # Documentation
+│   │   ├── routes/                # App routing setup
+│   │   └── README.md              # Documentation
+│   │
+│   └── server/
+│       ├── controllers/
+│       │   └── translationController.js # Business logic for translations
+│       ├── models/
+│       │   └── translationPackage.js    # Database models for packages and translations
+│       ├── routes/
+│       │   └── translationRoutes.js     # API routes for translation handling
+│       ├── package.json                 # Server dependencies and scripts
+│       └── server.js                    # Express server entry point
 │
-└── server/
-    ├── controllers/
-    │   └── translationController.js # Business logic for translations
-    ├── models/
-    │   └── translationPackage.js    # Database models for packages and translations
-    ├── routes/
-    │   └── translationRoutes.js     # API routes for translation handling
-    ├── package.json                 # Server dependencies and scripts
-    └── server.js                    # Express server entry point
+└── README.md
 ```
 
 ## Prerequisites
