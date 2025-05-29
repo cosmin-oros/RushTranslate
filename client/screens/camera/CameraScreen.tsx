@@ -210,7 +210,7 @@ const CameraScreen: React.FC = () => {
         />
 
         <TouchableOpacity onPress={handleLanguageSwitch} style={styles.switchButton}>
-          <Icon name="swap-vertical" size={30} color="#007F7F" />
+          <Icon name="swap-horiz" size={30} color="#007F7F" />
         </TouchableOpacity>
 
         <Card

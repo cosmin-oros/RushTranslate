@@ -152,7 +152,7 @@ const HomeScreen: React.FC = () => {
               />
 
               <TouchableOpacity onPress={handleLanguageSwitch} style={{ marginVertical: 16 }}>
-                <Icon name="swap-vertical" size={30} color="#007F7F" />
+                <Icon name="swap-horiz" size={30} color="#007F7F" />
               </TouchableOpacity>
 
               <Card
